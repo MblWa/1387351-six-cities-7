@@ -7,22 +7,26 @@ import Room from '../room/room';
 import Favorites from '../favorites/favorites';
 import NotFound from '../not-found/not-found';
 import { AppRoute } from '../../const';
+import offerProp from '../../prop-types/offer.prop';
+import reviewProp from '../../prop-types/review.prop';
 
-function App({ cardsCount }) {
+function App({ offers, reviews }) {
   const { ROOT, ROOM, LOGIN, FAVORITES } = AppRoute;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={ROOT}>
-          <Main cardsCount={cardsCount}/>
+          <Main offers={offers} />
         </Route>
-        <Route exact path={ROOM} component={Room} />
+        <Route exact path={ROOM}>
+          <Room offers={offers} reviews={reviews} />
+        </Route>
         <Route exact path={LOGIN}>
           <SignIn />
         </Route>
         <Route exact path={FAVORITES}>
-          <Favorites />
+          <Favorites offers={offers} />
         </Route>
         <Route>
           <NotFound />
@@ -33,7 +37,8 @@ function App({ cardsCount }) {
 }
 
 App.propTypes = {
-  cardsCount: PropTypes.number.isRequired,
+  offers: PropTypes.arrayOf(offerProp).isRequired,
+  reviews: PropTypes.arrayOf(reviewProp).isRequired,
 };
 
 export default App;
