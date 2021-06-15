@@ -1,10 +1,14 @@
-import React from 'react';
+import React,  { useState }  from 'react';
 import PropTypes from 'prop-types';
 import Header from '../header/header';
 import OffersList from '../offers-list/offers-list';
+import Map from '../map/map';
 import { offerProp } from '../../prop-types/props';
+import { CITY_AMSTERDAM } from '../../const';
 
 function Main({ offers }) {
+  const [selectedOffer, setselectedOffer] = useState({offerId: null});
+
 
   return (
     <div className="page page--gray page--main">
@@ -67,10 +71,17 @@ function Main({ offers }) {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers} />
+              <OffersList
+                offers={offers}
+                onMouseOver={(id) => {
+                  setselectedOffer({...selectedOffer, offerId: id});
+                }}
+              />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map city={CITY_AMSTERDAM} offers={offers} selectedOffer={selectedOffer} />
+              </section>
             </div>
           </div>
         </div>
