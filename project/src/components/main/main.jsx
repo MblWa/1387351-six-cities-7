@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../header/header';
 import OffersList from '../offers-list/offers-list';
-import offerProp from '../../prop-types/offer.prop';
+import { offerProp } from '../../prop-types/props';
 
 function Main({ offers }) {
 

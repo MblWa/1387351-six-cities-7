@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { OFFER_PATH } from '../../const';
 import { Link } from 'react-router-dom';
-import offerProp from '../../prop-types/offer.prop';
+import { offerProp } from '../../prop-types/props';
+import { calculateRatingPercent } from '../../util';
 
 function Card({ offer, onMouseOver }) {
   const { rating, previewImage, price, title, type, isPremium, isFavorite, id } = offer;
-  const ratingPercent = `${(rating * 20)}%`;
+  const ratingPercent = calculateRatingPercent(rating);
 
   return (
     <article className="cities__place-card place-card" onMouseOver={() => onMouseOver(id)}>

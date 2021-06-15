@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Card from '../card/card';
-import offerProp from '../../prop-types/offer.prop';
+import { offerProp } from '../../prop-types/props';
 
 function OffersList({ offers }) {
   const [selectedCard, setSelectedCard] = useState({offerId: null});

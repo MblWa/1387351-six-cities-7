@@ -7,8 +7,7 @@ import Room from '../room/room';
 import Favorites from '../favorites/favorites';
 import NotFound from '../not-found/not-found';
 import { AppRoute } from '../../const';
-import offerProp from '../../prop-types/offer.prop';
-import reviewProp from '../../prop-types/review.prop';
+import { reviewProp, offerProp } from '../../prop-types/props';
 
 function App({ offers, reviews }) {
   const { ROOT, ROOM, LOGIN, FAVORITES } = AppRoute;

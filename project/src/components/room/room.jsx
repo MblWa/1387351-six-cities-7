@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import Review from '../review/review';
 import ReviewForm from '../review-form/review-form';
-import offerProp from '../../prop-types/offer.prop';
-import reviewProp from '../../prop-types/review.prop';
+import { reviewProp, offerProp } from '../../prop-types/props';
+import { capitalize, calculateRatingPercent } from '../../util';
 
 function Room({ offers, reviews }) {
   const { id } = useParams();
@@ -26,8 +26,8 @@ function Room({ offers, reviews }) {
     title,
   } = room;
 
-  const typeCapitalized = type && type[0].toUpperCase() + type.slice(1);
-  const ratingPercent = `${(rating * 20)}%`;
+  const typeCapitalized = capitalize(type);
+  const ratingPercent = calculateRatingPercent(rating);
 
   const { avatarUrl, isPro, name } = host;
 

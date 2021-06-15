@@ -4,7 +4,7 @@ import Header from '../header/header';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import FavoritesList from '../favorites-list/favorites-list';
-import offerProp from '../../prop-types/offer.prop';
+import { offerProp } from '../../prop-types/props';
 
 function Favorites({ offers }) {
   const { ROOT } = AppRoute;
