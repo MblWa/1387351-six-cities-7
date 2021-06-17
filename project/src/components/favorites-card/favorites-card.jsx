@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { OFFER_PATH } from '../../const';
-import offerProp from '../../prop-types/offer.prop';
+import { offerProp } from '../../prop-types/props';
+import { calculateRatingPercent } from '../../util';
 
 function FavoritesCard({ offer }) {
   const { rating, previewImage, price, title, type, id } = offer;
-  const ratingPercent = `${(rating * 20)}%`;
+  const ratingPercent = calculateRatingPercent(rating);
 
   return (
     <article className="favorites__card place-card">

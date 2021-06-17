@@ -1,13 +1,14 @@
 import React from 'react';
-import reviewProp from '../../prop-types/review.prop';
+import { reviewProp } from '../../prop-types/props';
+import { convertDateToMonthAndDate, calculateRatingPercent } from '../../util';
 
 function Review({ review }) {
 
   const { comment, date, rating, user } = review;
   const { avatarUrl, name } = user;
 
-  const reviewRatingPercent = `${(rating * 20)}%`;
-  const commentDate = new Date(date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+  const reviewRatingPercent = calculateRatingPercent(rating);
+  const commentDate = convertDateToMonthAndDate(date);
 
   return (
     <li className="reviews__item">
