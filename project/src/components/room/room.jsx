@@ -2,15 +2,13 @@ import React from 'react';
 import Header from '../header/header';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import Review from '../review/review';
-import ReviewForm from '../review-form/review-form';
+import ReviewsList from '../reviews-list/reviews-list';
 import { reviewProp, offerProp } from '../../prop-types/props';
 import { capitalize, calculateRatingPercent } from '../../util';
 
 function Room({ offers, reviews }) {
   const { id } = useParams();
   const room = offers.find((offer) => offer.id === Number(id));
-  const reviewsCount = reviews.length;
 
   const {
     images,
@@ -117,16 +115,7 @@ function Room({ offers, reviews }) {
                   </p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                {reviewsCount !== 0 &&
-                <>
-                  <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviewsCount}</span></h2>
-                  <ul className="reviews__list">
-                    {reviews.map((review) => <Review review={review} key={review.id}/>)}
-                  </ul>
-                </>}
-                <ReviewForm />
-              </section>
+              <ReviewsList reviews={reviews} />
             </div>
           </div>
           <section className="property__map map"></section>
