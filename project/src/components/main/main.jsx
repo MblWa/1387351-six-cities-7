@@ -7,7 +7,7 @@ import { offerProp } from '../../prop-types/props';
 import { CITY_AMSTERDAM } from '../../const';
 
 function Main({ offers }) {
-  const [selectedOffer, setselectedOffer] = useState({offerId: null});
+  const [selectedOffer, setselectedOffer] = useState({id: null});
 
 
   return (
@@ -72,9 +72,10 @@ function Main({ offers }) {
                 </ul>
               </form>
               <OffersList
+                className="cities__places-list places__list tabs__content"
                 offers={offers}
-                onMouseOver={(id) => {
-                  setselectedOffer({...selectedOffer, offerId: id});
+                onMouseOver={(selectedId) => {
+                  setselectedOffer({...selectedOffer, id: selectedId});
                 }}
               />
             </section>
