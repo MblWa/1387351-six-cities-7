@@ -36,3 +36,5 @@ export const ACTIVE_CUSTOM_ICON = {
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 };
+
+export const MAXIMUM_NEARBY_OFFERS_COUNT = 3;

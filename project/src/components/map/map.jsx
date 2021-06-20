@@ -23,7 +23,7 @@ function Map({ city, offers, selectedOffer }) {
             lat: latitude,
             lng: longitude,
           }, {
-            icon: id === selectedOffer.offerId ? activeCustomIcon : defaultCustomIcon,
+            icon: id === selectedOffer.id ? activeCustomIcon : defaultCustomIcon,
           })
           .addTo(map);
       });
@@ -32,7 +32,7 @@ function Map({ city, offers, selectedOffer }) {
 
   return (
     <div
-      style={{height: '100%'}}
+      style={{height: '100%', width: '100%'}}
       ref={mapRef}
     >
 
@@ -42,7 +42,7 @@ function Map({ city, offers, selectedOffer }) {
 
 Map.propTypes = {
   selectedOffer: PropTypes.shape({
-    offerId: PropTypes.number,
+    id: PropTypes.number,
   }).isRequired,
   offers: PropTypes.arrayOf(offerProp).isRequired,
   city: PropTypes.shape({

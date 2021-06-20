@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Card from '../card/card';
 import { offerProp } from '../../prop-types/props';
 
-function OffersList({ offers, onMouseOver }) {
+function OffersList({ offers, onMouseOver, className }) {
 
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className={className}>
       {offers.map((offer) =>
         (
           <Card
@@ -20,8 +20,13 @@ function OffersList({ offers, onMouseOver }) {
 }
 
 OffersList.propTypes = {
+  className: PropTypes.string.isRequired,
   offers: PropTypes.arrayOf(offerProp).isRequired,
-  onMouseOver: PropTypes.func.isRequired,
+  onMouseOver: PropTypes.func,
+};
+
+Card.defaultProps = {
+  onMouseOver: () => {},
 };
 
 export default OffersList;
