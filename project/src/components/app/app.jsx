@@ -16,7 +16,7 @@ function App({ offers, reviews }) {
     <BrowserRouter>
       <Switch>
         <Route exact path={ROOT}>
-          <Main offers={offers} />
+          <Main />
         </Route>
         <Route exact path={ROOM}>
           <Room offers={offers} reviews={reviews} />

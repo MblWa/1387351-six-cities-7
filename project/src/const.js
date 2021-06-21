@@ -16,15 +16,6 @@ export const Rating = {
   1: 'terribly',
 };
 
-export const CITY_AMSTERDAM = {
-  location: {
-    latitude: 52.370216,
-    longitude: 4.895168,
-    zoom: 10,
-  },
-  name: 'Amsterdam',
-};
-
 export const DEFAULT_CUSTOM_ICON = {
   iconUrl: './img/pin.svg',
   iconSize: [40, 40],
@@ -38,3 +29,54 @@ export const ACTIVE_CUSTOM_ICON = {
 };
 
 export const MAXIMUM_NEARBY_OFFERS_COUNT = 3;
+
+export const CITIES_LIST = {
+  PARIS: {
+    location: {
+      latitude: 48.858950,
+      longitude: 2.277020,
+      zoom: 10,
+    },
+    name: 'Paris',
+  },
+  COLOGNE: {
+    location: {
+      latitude: 50.957835,
+      longitude: 6.827240,
+      zoom: 10,
+    },
+    name: 'Cologne',
+  },
+  BRUSSELS: {
+    location: {
+      latitude: 50.855062,
+      longitude: 4.305350,
+      zoom: 10,
+    },
+    name: 'Brussels',
+  },
+  AMSTERDAM: {
+    location: {
+      latitude: 52.370216,
+      longitude: 4.895168,
+      zoom: 10,
+    },
+    name: 'Amsterdam',
+  },
+  HAMBURG: {
+    location: {
+      latitude: 53.558694,
+      longitude: 9.78774,
+      zoom: 10,
+    },
+    name: 'Hamburg',
+  },
+  DUSSELDORF: {
+    location: {
+      latitude: 51.238586,
+      longitude: 6.674268,
+      zoom: 10,
+    },
+    name: 'Dusseldorf',
+  },
+};

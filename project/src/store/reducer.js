@@ -1,15 +1,11 @@
 import { ActionType } from './action';
+import { getOffersByCity } from '../util';
+import { CITIES_LIST } from '../const';
+import offers from '../mocks/offers';
 
 const initialStateForCity = {
-  city: {
-    location: {
-      latitude: null,
-      longitude: null,
-      zoom: null,
-    },
-    name: '',
-  },
-  offers: [],
+  city: CITIES_LIST.PARIS,
+  offers: getOffersByCity(CITIES_LIST.PARIS, offers),
 };
 
 const reducer = (state = initialStateForCity, action) => {
@@ -24,7 +20,7 @@ const reducer = (state = initialStateForCity, action) => {
     case ActionType.SELECT_OFFERS:
       return {
         ...state,
-        offers: getOffersByCity(state.city),
+        offers: getOffersByCity(action.city, offers),
       };
     default:
       return state;
