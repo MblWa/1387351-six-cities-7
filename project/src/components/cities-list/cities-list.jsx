@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { ActionCreator } from '../../store/action';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
+import RenderOptions from '../render-options/render-options';
 import { offerProp, cityProp } from '../../prop-types/props';
 import { CITIES_LIST } from '../../const';
 import { selectPluralFormForNoun } from '../../util';
@@ -37,21 +38,7 @@ function CitiesList({ selectedCity, selectedOffers, onCityClick }) {
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">{offersCount} {selectPluralFormForNoun(offersCount, 'place', 'places')} to stay in {selectedCity.name}</b>
-            <form className="places__sorting" action="#" method="get">
-              <span className="places__sorting-caption">Sort by</span>
-              <span className="places__sorting-type" tabIndex="0">
-                Popular
-                <svg className="places__sorting-arrow" width="7" height="4">
-                  <use xlinkHref="#icon-arrow-select"></use>
-                </svg>
-              </span>
-              <ul className="places__options places__options--custom places__options--opened">
-                <li className="places__option places__option--active" tabIndex="0">Popular</li>
-                <li className="places__option" tabIndex="0">Price: low to high</li>
-                <li className="places__option" tabIndex="0">Price: high to low</li>
-                <li className="places__option" tabIndex="0">Top rated first</li>
-              </ul>
-            </form>
+            <RenderOptions />
             <OffersList
               className="cities__places-list places__list tabs__content"
               offers={selectedOffers}
