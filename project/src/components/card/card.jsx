@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 import { offerProp } from '../../prop-types/props';
 import { capitalize, calculateRatingPercent } from '../../util';
 
-function Card({ offer, onMouseOver }) {
+function Card({ offer, onMouseEnter, onMouseLeave }) {
   const { rating, previewImage, price, title, type, isPremium, isFavorite, id } = offer;
   const typeCapitalized = capitalize(type);
   const ratingPercent = calculateRatingPercent(rating);
 
   return (
-    <article className="cities__place-card place-card" onMouseOver={() => onMouseOver(id)}>
+    <article className="cities__place-card place-card" onMouseEnter={() => onMouseEnter(id)} onMouseLeave={onMouseLeave}>
       {isPremium &&
       <div className="place-card__mark">
         <span>Premium</span>
@@ -53,12 +53,14 @@ function Card({ offer, onMouseOver }) {
 }
 
 Card.propTypes = {
-  onMouseOver: PropTypes.func,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
   offer: offerProp,
 };
 
 Card.defaultProps = {
-  onMouseOver: () => {},
+  onMouseEnter: () => {},
+  onMouseLeave: () => {},
 };
 
 export default Card;

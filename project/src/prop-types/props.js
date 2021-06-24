@@ -47,3 +47,12 @@ export const reviewProp = PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
 }).isRequired;
+
+export const cityProp = PropTypes.shape({
+  location: PropTypes.shape({
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
+    zoom: PropTypes.number.isRequired,
+  }).isRequired,
+  name: PropTypes.string.isRequired,
+}).isRequired;

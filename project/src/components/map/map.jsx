@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { offerProp } from '../../prop-types/props';
+import { offerProp, cityProp } from '../../prop-types/props';
 import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
 import { DEFAULT_CUSTOM_ICON, ACTIVE_CUSTOM_ICON } from '../../const';
@@ -8,13 +8,14 @@ import { DEFAULT_CUSTOM_ICON, ACTIVE_CUSTOM_ICON } from '../../const';
 function Map({ city, offers, selectedOffer }) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
-
+  const markerLayer = leaflet.layerGroup();
 
   useEffect(() => {
     const defaultCustomIcon = leaflet.icon(DEFAULT_CUSTOM_ICON);
     const activeCustomIcon = leaflet.icon(ACTIVE_CUSTOM_ICON);
-
     if (map) {
+      markerLayer.addTo(map);
+
       offers.forEach((offer) => {
         const { latitude, longitude } = offer.location;
         const { id } = offer;
@@ -25,10 +26,16 @@ function Map({ city, offers, selectedOffer }) {
           }, {
             icon: id === selectedOffer.id ? activeCustomIcon : defaultCustomIcon,
           })
-          .addTo(map);
+          .addTo(markerLayer);
       });
     }
-  }, [map, offers, selectedOffer]);
+
+    return () => {
+      if (map) {
+        markerLayer.clearLayers();
+      }
+    };
+  }, [map, city, offers, selectedOffer, markerLayer]);
 
   return (
     <div
@@ -45,14 +52,7 @@ Map.propTypes = {
     id: PropTypes.number,
   }).isRequired,
   offers: PropTypes.arrayOf(offerProp).isRequired,
-  city: PropTypes.shape({
-    location: PropTypes.shape({
-      latitude: PropTypes.number.isRequired,
-      longitude: PropTypes.number.isRequired,
-      zoom: PropTypes.number.isRequired,
-    }).isRequired,
-    name: PropTypes.string.isRequired,
-  }).isRequired,
+  city: cityProp,
 };
 
 Map.defaultProps = {
