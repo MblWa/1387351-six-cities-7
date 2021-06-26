@@ -7,6 +7,13 @@ export const AppRoute = {
 
 export const OFFER_PATH = '/offer/';
 
+export const SortByOptions = {
+  POPULAR: 'Popular',
+  PRICE_LOW: 'Price: low to high',
+  PRICE_HIGH: 'Price: high to low',
+  TOP_RATED: 'Top rated first',
+};
+
 export const Rating = {
   MAXIMUM_RATING: 5,
   5: 'perfect',
