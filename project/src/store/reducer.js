@@ -1,11 +1,12 @@
 import { ActionType } from './action';
 import { getOffersByCity, sortOffers } from '../util';
-import { CITIES_LIST, SortByOptions } from '../const';
+import { CITIES_LIST, SortByOptions, AuthorizationStatus } from '../const';
 
 const initialState = {
   city: CITIES_LIST.PARIS,
   offers: getOffersByCity(CITIES_LIST.PARIS),
   sortBy: SortByOptions.POPULAR,
+  authorizationStatus: AuthorizationStatus.UNKNOWN,
 };
 
 const reducer = (state = initialState, action) => {
@@ -33,6 +34,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         offers: action.offers,
+      };
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: action.status,
+      };
+    case ActionType.LOGOUT:
+      return {
+        ...state,
+        authorizationStatus: AuthorizationStatus.NO_AUTH,
       };
     default:
       return state;

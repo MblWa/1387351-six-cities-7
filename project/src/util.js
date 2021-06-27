@@ -1,6 +1,6 @@
 import { SortByOptions } from './const';
-import offers from './mocks/offers';
 
+const offers = [];
 const offersByCity = {};
 
 offers.forEach((offer) => {
