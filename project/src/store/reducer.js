@@ -29,6 +29,11 @@ const reducer = (state = initialState, action) => {
         sortBy: action.sortBy,
         offers: sortOffers(state.offers, action.sortBy, state.city),
       };
+    case ActionType.LOAD_OFFERS:
+      return {
+        ...state,
+        offers: action.offers,
+      };
     default:
       return state;
   }
