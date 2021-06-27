@@ -1,12 +1,13 @@
 import { ActionType } from './action';
-import { getOffersByCity, sortOffers } from '../util';
-import { CITIES_LIST, SortByOptions, AuthorizationStatus } from '../const';
+import { getOffersByCity, arrangeOffersByCity, sortOffers, adaptKeys } from '../util';
+import { CITIES_LIST, SortByOptions, AuthorizationStatus, AdapterKeys } from '../const';
 
 const initialState = {
   city: CITIES_LIST.PARIS,
-  offers: getOffersByCity(CITIES_LIST.PARIS),
+  offers: [],
   sortBy: SortByOptions.POPULAR,
   authorizationStatus: AuthorizationStatus.UNKNOWN,
+  isOffersLoaded: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -33,7 +34,8 @@ const reducer = (state = initialState, action) => {
     case ActionType.LOAD_OFFERS:
       return {
         ...state,
-        offers: action.offers,
+        offers: arrangeOffersByCity(adaptKeys(action.offers, AdapterKeys), CITIES_LIST.PARIS),
+        isOffersLoaded: true,
       };
     case ActionType.REQUIRED_AUTHORIZATION:
       return {

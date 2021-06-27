@@ -40,48 +40,48 @@ export const MAXIMUM_NEARBY_OFFERS_COUNT = 3;
 export const CITIES_LIST = {
   PARIS: {
     location: {
-      latitude: 48.858950,
-      longitude: 2.277020,
+      latitude: 48.85661,
+      longitude: 2.351499,
       zoom: 10,
     },
     name: 'Paris',
   },
   COLOGNE: {
     location: {
-      latitude: 50.957835,
-      longitude: 6.827240,
+      latitude: 50.938361,
+      longitude: 6.959974,
       zoom: 10,
     },
     name: 'Cologne',
   },
   BRUSSELS: {
     location: {
-      latitude: 50.855062,
-      longitude: 4.305350,
+      latitude: 50.846557,
+      longitude: 4.351697,
       zoom: 10,
     },
     name: 'Brussels',
   },
   AMSTERDAM: {
     location: {
-      latitude: 52.370216,
-      longitude: 4.895168,
+      latitude: 52.37454,
+      longitude: 4.897976,
       zoom: 10,
     },
     name: 'Amsterdam',
   },
   HAMBURG: {
     location: {
-      latitude: 53.558694,
-      longitude: 9.78774,
+      latitude: 53.550341,
+      longitude: 10.000654,
       zoom: 10,
     },
     name: 'Hamburg',
   },
   DUSSELDORF: {
     location: {
-      latitude: 51.238586,
-      longitude: 6.674268,
+      latitude: 51.225402,
+      longitude: 6.776314,
       zoom: 10,
     },
     name: 'Dusseldorf',
@@ -92,4 +92,25 @@ export const AuthorizationStatus = {
   AUTH: 'AUTH',
   NO_AUTH: 'NO_AUTH',
   UNKNOWN: 'UNKNOWN',
+};
+
+export const APIRoute = {
+  OFFERS: '/hotels',
+  ROOM: '/hotels/:id',
+  NERABY: '/hotels/:hotel_id/nearby',
+  FAVORITE: '/favorite',
+  UPDATE_FAVORITE: '/favorite/:hotel_id/:status',
+  COMMENTS: '/comments/:hotel_id',
+  POST_COMMENT: '/comments/:hotel_id',
+  LOGIN: '/login',
+  LOGOUT: '/logout',
+};
+
+export const AdapterKeys = {
+  'is_favorite': 'isFavorite',
+  'is_premium': 'isPremium',
+  'max_adults': 'maxAdults',
+  'preview_image': 'previewImage',
+  'avatar_url': 'avatarUrl',
+  'is_pro': 'isPro',
 };
