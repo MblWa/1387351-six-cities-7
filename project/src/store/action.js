@@ -4,7 +4,10 @@ export const ActionType = {
   SORT_OFFERS: 'offers/sortOffers',
   LOAD_OFFERS: 'data/loadOffers',
   REQUIRED_AUTHORIZATION: 'user/requiredAuthorization',
+  LOGIN: 'user/login',
   LOGOUT: 'user/logout',
+  SET_ERROR: 'error/setError',
+  RESET_ERROR: 'error/resetError',
 };
 
 export const ActionCreator = {
@@ -28,7 +31,18 @@ export const ActionCreator = {
     type: ActionType.REQUIRED_AUTHORIZATION,
     status,
   }),
+  login: (user) => ({
+    type: ActionType.LOGIN,
+    user,
+  }),
   logout: () => ({
     type: ActionType.LOGOUT,
+  }),
+  setError: (error) => ({
+    type: ActionType.SET_ERROR,
+    error,
+  }),
+  resetError: () => ({
+    type: ActionType.RESET_ERROR,
   }),
 };
