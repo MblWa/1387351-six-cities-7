@@ -1,15 +1,20 @@
 import { SortByOptions } from './const';
-import offers from './mocks/offers';
+import {AuthorizationStatus} from './const';
 
 const offersByCity = {};
 
-offers.forEach((offer) => {
-  if (!offersByCity[offer.city.name]) {
-    offersByCity[offer.city.name] = [offer];
-  } else {
-    offersByCity[offer.city.name].push(offer);
-  }
-});
+export const arrangeOffersByCity = (offers, city) => {
+  offers.forEach((offer) => {
+    if (!offersByCity[offer.city.name]) {
+      offersByCity[offer.city.name] = [offer];
+    } else {
+      offersByCity[offer.city.name].push(offer);
+    }
+  });
+
+  return getOffersByCity(city);
+};
+
 
 export const convertDateToMonthAndDate = (date) => (
   new Date(date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
@@ -46,3 +51,21 @@ export const sortOffers = (values, sortBy, city) => {
       return shallowCopy;
   }
 };
+
+export const isCheckedAuth = (authorizationStatus) => (
+  authorizationStatus === AuthorizationStatus.UNKNOWN
+);
+
+export const adaptKeys = (array, newKeys) => (
+  array.map((obj) => {
+    const keyValues = Object.keys(obj).map((key) => {
+      if (obj[key] === Object(obj[key]) && !Array.isArray(obj[key])) {
+        obj[key] = Object.assign({}, ...adaptKeys([obj[key]], newKeys));
+      }
+      const newKey = newKeys[key] || key;
+      return { [newKey]: obj[key] };
+    });
+
+    return Object.assign({}, ...keyValues);
+  })
+);
