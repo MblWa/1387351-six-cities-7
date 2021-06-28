@@ -25,7 +25,7 @@ export const capitalize = (word) => (
 );
 
 export const calculateRatingPercent = (rating) => (
-  `${(rating * 20)}%`
+  `${(Math.round(rating) * 20)}%`
 );
 
 export const getOffersByCity = (city) => (
