@@ -59,16 +59,27 @@ export const isCheckedAuth = (authorizationStatus) => (
 export const adaptKeys = (array) => (
   array.map((obj) => (
     {
-      ...obj,
+      bedrooms: obj.bedrooms,
+      city: obj.city,
+      description: obj.description,
+      goods: obj.goods,
       'isFavorite': obj.is_favorite,
       'isPremium': obj.is_premium,
       'maxAdults': obj.max_adults,
       'previewImage': obj.preview_image,
       host: {
-        ...obj.host,
+        id: obj.host.id,
+        name: obj.host.name,
         'avatarUrl': obj.host.avatar_url,
         'isPro': obj.host.is_pro,
       },
+      id: obj.id,
+      images: obj.images,
+      location: obj.location,
+      price: obj.price,
+      rating: obj.rating,
+      title: obj.title,
+      type: obj.type,
     }
   ))
 );
