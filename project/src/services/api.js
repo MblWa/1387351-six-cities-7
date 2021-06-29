@@ -5,11 +5,12 @@ const REQUEST_TIMEOUT = 5000;
 
 const HttpCode = {
   UNAUTHORIZED: 401,
+  BAD_REQUEST: 400,
 };
 
 const token = localStorage.getItem('token') ?? '';
 
-export const createAPI = (onUnauthorized) => {
+export const createAPI = (onUnauthorized, onBadRequest) => {
   const api = axios.create({
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
@@ -23,9 +24,17 @@ export const createAPI = (onUnauthorized) => {
   const onFail = (err) => {
     const { response } = err;
 
-    if (response.status === HttpCode.UNAUTHORIZED) {
-      onUnauthorized();
+    switch (response.status) {
+      case HttpCode.UNAUTHORIZED:
+        onUnauthorized();
+        break;
+      case HttpCode.BAD_REQUEST:
+        onBadRequest(`${response.status}`);
+        break;
+      default:
+        throw err;
     }
+
     throw err;
   };
 

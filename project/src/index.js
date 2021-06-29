@@ -14,11 +14,16 @@ import { AuthorizationStatus } from './const';
 
 const api = createAPI(
   () => store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH)),
+  (error) => {
+    store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
+    store.dispatch(ActionCreator.setError(error));
+  },
 );
 
+const composeEnhancers = composeWithDevTools({trace: true, traceLimit: 25 });
 const store = createStore(
   reducer,
-  composeWithDevTools(
+  composeEnhancers(
     applyMiddleware(thunk.withExtraArgument(api)),
   ),
 );

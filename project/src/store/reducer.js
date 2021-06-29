@@ -1,6 +1,6 @@
 import { ActionType } from './action';
 import { getOffersByCity, arrangeOffersByCity, sortOffers, adaptKeys } from '../util';
-import { CITIES_LIST, SortByOptions, AuthorizationStatus, AdapterKeys } from '../const';
+import { CITIES_LIST, SortByOptions, AuthorizationStatus } from '../const';
 
 const initialState = {
   city: CITIES_LIST.PARIS,
@@ -8,6 +8,8 @@ const initialState = {
   sortBy: SortByOptions.POPULAR,
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   isOffersLoaded: false,
+  user: localStorage.getItem('user') ?? '',
+  error: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -34,7 +36,7 @@ const reducer = (state = initialState, action) => {
     case ActionType.LOAD_OFFERS:
       return {
         ...state,
-        offers: arrangeOffersByCity(adaptKeys(action.offers, AdapterKeys), CITIES_LIST.PARIS),
+        offers: arrangeOffersByCity(adaptKeys(action.offers), CITIES_LIST.PARIS),
         isOffersLoaded: true,
       };
     case ActionType.REQUIRED_AUTHORIZATION:
@@ -42,10 +44,27 @@ const reducer = (state = initialState, action) => {
         ...state,
         authorizationStatus: action.status,
       };
+    case ActionType.LOGIN:
+      return {
+        ...state,
+        user: action.user,
+        error: '',
+      };
     case ActionType.LOGOUT:
       return {
         ...state,
         authorizationStatus: AuthorizationStatus.NO_AUTH,
+        user: '',
+      };
+    case ActionType.SET_ERROR:
+      return {
+        ...state,
+        error: action.error,
+      };
+    case ActionType.RESET_ERROR:
+      return {
+        ...state,
+        error: '',
       };
     default:
       return state;

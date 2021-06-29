@@ -8,6 +8,7 @@ import Room from '../room/room';
 import Favorites from '../favorites/favorites';
 import NotFound from '../not-found/not-found';
 import LoadingScreen from '../loading-screen/loading-screen';
+import PrivateRoute from '../private-route/private-route';
 import { AppRoute } from '../../const';
 import { isCheckedAuth } from '../../util';
 import { reviewProp } from '../../prop-types/props';
@@ -30,12 +31,19 @@ function App({ authorizationStatus, isOffersLoaded, reviews }) {
         <Route exact path={ROOM}>
           <Room reviews={reviews} />
         </Route>
-        <Route exact path={LOGIN}>
-          <SignIn />
-        </Route>
-        <Route exact path={FAVORITES}>
-          <Favorites />
-        </Route>
+        <PrivateRoute
+          exact
+          isPublic
+          path={LOGIN}
+          redirectRoute={ROOT}
+          render={() => <SignIn />}
+        />
+        <PrivateRoute
+          exact
+          path={FAVORITES}
+          redirectRoute={LOGIN}
+          render={() => <Favorites />}
+        />
         <Route>
           <NotFound />
         </Route>
@@ -55,5 +63,5 @@ const mapStateToProps = (state) => ({
   isOffersLoaded: state.isOffersLoaded,
 });
 
-export {App};
+export { App };
 export default connect(mapStateToProps, null)(App);

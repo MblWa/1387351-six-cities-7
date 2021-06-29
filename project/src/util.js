@@ -25,7 +25,7 @@ export const capitalize = (word) => (
 );
 
 export const calculateRatingPercent = (rating) => (
-  `${(rating * 20)}%`
+  `${(Math.round(rating) * 20)}%`
 );
 
 export const getOffersByCity = (city) => (
@@ -56,16 +56,19 @@ export const isCheckedAuth = (authorizationStatus) => (
   authorizationStatus === AuthorizationStatus.UNKNOWN
 );
 
-export const adaptKeys = (array, newKeys) => (
-  array.map((obj) => {
-    const keyValues = Object.keys(obj).map((key) => {
-      if (obj[key] === Object(obj[key]) && !Array.isArray(obj[key])) {
-        obj[key] = Object.assign({}, ...adaptKeys([obj[key]], newKeys));
-      }
-      const newKey = newKeys[key] || key;
-      return { [newKey]: obj[key] };
-    });
-
-    return Object.assign({}, ...keyValues);
-  })
+export const adaptKeys = (array) => (
+  array.map((obj) => (
+    {
+      ...obj,
+      'isFavorite': obj.is_favorite,
+      'isPremium': obj.is_premium,
+      'maxAdults': obj.max_adults,
+      'previewImage': obj.preview_image,
+      host: {
+        ...obj.host,
+        'avatarUrl': obj.host.avatar_url,
+        'isPro': obj.host.is_pro,
+      },
+    }
+  ))
 );

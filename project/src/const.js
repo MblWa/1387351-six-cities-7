@@ -105,12 +105,3 @@ export const APIRoute = {
   LOGIN: '/login',
   LOGOUT: '/logout',
 };
-
-export const AdapterKeys = {
-  'is_favorite': 'isFavorite',
-  'is_premium': 'isPremium',
-  'max_adults': 'maxAdults',
-  'preview_image': 'previewImage',
-  'avatar_url': 'avatarUrl',
-  'is_pro': 'isPro',
-};
