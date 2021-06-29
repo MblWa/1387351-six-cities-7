@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { OFFER_PATH } from '../../const';
 import { Link } from 'react-router-dom';
+import { OFFER_PATH } from '../../const';
 import { offerProp } from '../../prop-types/props';
 import { capitalize, calculateRatingPercent } from '../../util';
 

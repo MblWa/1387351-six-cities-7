@@ -1,10 +1,10 @@
 import React,  { useState }  from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ActionCreator } from '../../store/action';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import RenderOptions from '../render-options/render-options';
+import { ActionCreator } from '../../store/action';
 import { offerProp, cityProp } from '../../prop-types/props';
 import { CITIES_LIST } from '../../const';
 import { selectPluralFormForNoun } from '../../util';

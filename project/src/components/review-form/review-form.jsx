@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Rating } from '../../const';
 import Star from '../star/star';
+import { Rating } from '../../const';
 
 function ReviewForm() {
   const [review, setReview] = useState({

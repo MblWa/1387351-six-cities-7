@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
 import UserStatusbar from '../user-statusbar/user-statusbar';
+import { AppRoute } from '../../const';
 
 function Header() {
   const { ROOT } = AppRoute;

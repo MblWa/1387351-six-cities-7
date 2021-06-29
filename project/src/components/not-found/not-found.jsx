@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '../header/header';
 import { Link } from 'react-router-dom';
+import Header from '../header/header';
 import { AppRoute } from '../../const';
 
 function NotFound() {

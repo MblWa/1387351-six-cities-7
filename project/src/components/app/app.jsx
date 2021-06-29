@@ -31,9 +31,8 @@ function App({ authorizationStatus, isOffersLoaded, reviews }) {
         <Route exact path={ROOM}>
           <Room reviews={reviews} />
         </Route>
-        <PrivateRoute
+        <Route
           exact
-          isPublic
           path={LOGIN}
           redirectRoute={ROOT}
           render={() => <SignIn />}

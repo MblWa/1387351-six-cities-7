@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from '../header/header';
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import Header from '../header/header';
 import FavoritesList from '../favorites-list/favorites-list';
+import { AppRoute } from '../../const';
 import { offerProp } from '../../prop-types/props';
 
 function Favorites({ offers }) {

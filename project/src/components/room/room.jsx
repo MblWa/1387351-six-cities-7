@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from '../header/header';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import Header from '../header/header';
 import ReviewsList from '../reviews-list/reviews-list';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
