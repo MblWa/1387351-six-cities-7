@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Header from '../header/header';
 import ReviewsList from '../reviews-list/reviews-list';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
+import LoadingScreen from '../loading-screen/loading-screen';
 import { reviewProp, offerProp } from '../../prop-types/props';
 import { capitalize, calculateRatingPercent } from '../../util';
-import { MAXIMUM_NEARBY_OFFERS_COUNT } from '../../const';
+import { fetchRoom, fetchOffersNearby, fetchComments } from '../../store/api-actions';
+import { MAXIMUM_NEARBY_OFFERS_COUNT, MAXIMUM_OFFER_IMAGES_COUNT } from '../../const';
+import { AppRoute } from '../../const';
 
-function Room({ offers, reviews }) {
+function Room({ room, onLoad, isRoomLoaded, offersNearby, reviews }) {
   const { id } = useParams();
-  const room = offers.find((offer) => offer.id === Number(id));
+  const history = useHistory();
+
+  useEffect(() => {
+    onLoad(id, () => history.push(AppRoute.NOT_FOUND));
+  }, [id, history, onLoad]);
+
+  if (!isRoomLoaded || Number(id) !== room.id) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   const {
     city,
@@ -31,7 +45,8 @@ function Room({ offers, reviews }) {
   const typeCapitalized = capitalize(type);
   const ratingPercent = calculateRatingPercent(rating);
   const { avatarUrl, isPro, name } = host;
-  const nearbyOffers = offers.slice(0, MAXIMUM_NEARBY_OFFERS_COUNT);
+  const nearbyOffers = offersNearby.slice(0, MAXIMUM_NEARBY_OFFERS_COUNT);
+
 
   return (
     <div className="page">
@@ -40,7 +55,7 @@ function Room({ offers, reviews }) {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {images.map((imageUrl, i) => (
+              {images.slice(0, MAXIMUM_OFFER_IMAGES_COUNT).map((imageUrl, i) => (
                 <div className="property__image-wrapper" key={imageUrl + i.toString()}>
                   <img className="property__image" src={imageUrl} alt={typeCapitalized} />
                 </div>
@@ -141,8 +156,31 @@ function Room({ offers, reviews }) {
 }
 
 Room.propTypes = {
-  offers: PropTypes.arrayOf(offerProp).isRequired,
+  offersNearby: PropTypes.arrayOf(offerProp).isRequired,
   reviews: PropTypes.arrayOf(reviewProp).isRequired,
+  room: PropTypes.object,
+  onLoad: PropTypes.func.isRequired,
+  isRoomLoaded: PropTypes.bool.isRequired,
 };
 
-export default Room;
+Room.defaultProps = {
+  room: {},
+};
+
+const mapStateToProps = (state) => ({
+  offersNearby: state.offersNearby,
+  room: state.room,
+  reviews: state.comments,
+  isRoomLoaded: state.isRoomLoaded,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoad(id, cb) {
+    dispatch(fetchRoom(id, cb));
+    dispatch(fetchOffersNearby(id));
+    dispatch(fetchComments(id));
+  },
+});
+
+export { Room };
+export default connect(mapStateToProps, mapDispatchToProps)(Room);

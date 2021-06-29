@@ -1,23 +1,30 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { postComment } from '../../store/api-actions';
 import Star from '../star/star';
 import { Rating } from '../../const';
+import { userProp } from '../../prop-types/props';
 
-function ReviewForm() {
-  const [review, setReview] = useState({
-    rating: 0,
-    reviewText: '',
-  });
+function ReviewForm({ id, user, onSubmit }) {
+  const [rating, setRating] = useState(0);
+  const commentRef = useRef();
 
-  const { reviewText } = review;
   const { MAXIMUM_RATING } = Rating;
   const stars = new Array(MAXIMUM_RATING).fill(null);
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    onSubmit({
+      rating,
+      comment: commentRef.current.value,
+    }, id);
+  };
 
   return (
     <form
       className="reviews__form form"
-      onSubmit={(evt) => {
-        evt.preventDefault();
-      }}
+      onSubmit={handleSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
@@ -28,27 +35,16 @@ function ReviewForm() {
               key={Rating[index]}
               index={index}
               title={Rating[index]}
-              onChange={({ target }) => {
-                setReview({
-                  ...review,
-                  rating: target.value,
-                });
-              }}
+              onChange={(evt) => setRating(evt.target.value)}
             />
           );
         })}
       </div>
       <textarea
+        ref={commentRef}
         className="reviews__textarea form__textarea"
         id="review" name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={reviewText}
-        onChange={({ target }) => {
-          setReview({
-            ...review,
-            reviewText: target.value,
-          });
-        }}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -60,4 +56,27 @@ function ReviewForm() {
   );
 }
 
-export default ReviewForm;
+ReviewForm.propTypes = {
+  id: PropTypes.number.isRequired,
+  user: userProp,
+  onSubmit: PropTypes.func.isRequired,
+};
+
+ReviewForm.defaultProps = {
+  user: { id: null },
+};
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  id: state.room.id,
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(commentPost, id) {
+    dispatch(postComment(commentPost, id));
+  },
+});
+
+export { ReviewForm };
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewForm);

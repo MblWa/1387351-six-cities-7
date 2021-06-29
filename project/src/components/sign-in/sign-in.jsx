@@ -81,7 +81,7 @@ SignIn.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  error: state.error,
+  error: state.user.loginError,
   selectedCity: state.city,
 });
 

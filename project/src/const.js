@@ -3,6 +3,7 @@ export const AppRoute = {
   FAVORITES: '/favorites',
   ROOM: '/offer/:id',
   ROOT: '/',
+  NOT_FOUND: '/404',
 };
 
 export const OFFER_PATH = '/offer/';
@@ -36,6 +37,7 @@ export const ACTIVE_CUSTOM_ICON = {
 };
 
 export const MAXIMUM_NEARBY_OFFERS_COUNT = 3;
+export const MAXIMUM_OFFER_IMAGES_COUNT = 6;
 
 export const CITIES_LIST = {
   PARIS: {
@@ -96,12 +98,11 @@ export const AuthorizationStatus = {
 
 export const APIRoute = {
   OFFERS: '/hotels',
-  ROOM: '/hotels/:id',
-  NERABY: '/hotels/:hotel_id/nearby',
+  ROOM: '/hotels/',
+  NEARBY: '/nearby',
   FAVORITE: '/favorite',
   UPDATE_FAVORITE: '/favorite/:hotel_id/:status',
-  COMMENTS: '/comments/:hotel_id',
-  POST_COMMENT: '/comments/:hotel_id',
+  COMMENTS: '/comments/',
   LOGIN: '/login',
   LOGOUT: '/logout',
 };

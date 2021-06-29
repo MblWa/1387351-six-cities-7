@@ -6,6 +6,24 @@ export const fetchOffersList = () => (dispatch, _getState, api) => (
     .then(({data}) => dispatch(ActionCreator.loadOffers(data)))
 );
 
+export const fetchRoom = (id, cb) => (dispatch, _getState, api) => (
+  api.get(APIRoute.ROOM + id.toString())
+    .then(({data}) => dispatch(ActionCreator.loadRoom(data)))
+    .catch(() => cb())
+);
+
+export const fetchComments = (id) => (dispatch, _getState, api) => (
+  api.get(APIRoute.COMMENTS + id.toString())
+    .then(({data}) => dispatch(ActionCreator.loadComments(data)))
+    .catch(() => {})
+);
+
+export const fetchOffersNearby = (id) => (dispatch, _getState, api) => (
+  api.get(APIRoute.ROOM + id.toString() + APIRoute.NEARBY)
+    .then(({data}) => dispatch(ActionCreator.loadOffersNearby(data)))
+    .catch(() => {})
+);
+
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
@@ -16,11 +34,17 @@ export const login = ({ login: email, password }, cb) => (dispatch, _getState, a
   api.post(APIRoute.LOGIN, { email, password })
     .then(({ data }) => {
       localStorage.setItem('token', data.token);
-      localStorage.setItem('user', email);
+      localStorage.setItem('user', JSON.stringify(data));
+      dispatch(ActionCreator.login(data));
     })
-    .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
-    .then(() => dispatch(ActionCreator.login(email)))
+    .then((data) => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
     .then(() => cb())
+    .catch(({response}) => dispatch(ActionCreator.setError(`${response.status}`)))
+);
+
+export const postComment = ({comment, rating}, id) => (dispatch, _getState, api) => (
+  api.post(APIRoute.COMMENTS + id.toString(), { comment, rating })
+    .then(({ data }) => dispatch(ActionCreator.loadComments(data)))
     .catch(() => {})
 );
 

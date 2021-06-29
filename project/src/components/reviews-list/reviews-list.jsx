@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Review from '../review/review';
 import ReviewForm from '../review-form/review-form';
 import { reviewProp } from '../../prop-types/props';
+import { AuthorizationStatus } from '../../const';
 
-function ReviewsList({ reviews }) {
+function ReviewsList({ reviews, authorizationStatus }) {
   const reviewsCount = reviews.length;
 
   return (
@@ -16,13 +18,20 @@ function ReviewsList({ reviews }) {
             {reviews.map((review) => <Review review={review} key={review.id}/>)}
           </ul>
         </>}
-      <ReviewForm />
+      {authorizationStatus === AuthorizationStatus.AUTH && <ReviewForm />}
     </section>
   );
 }
 
 ReviewsList.propTypes = {
   reviews: PropTypes.arrayOf(reviewProp).isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
 };
 
-export default ReviewsList;
+
+const mapStateToProps = (state) => ({
+  authorizationStatus: state.authorizationStatus,
+});
+
+export { ReviewsList };
+export default connect(mapStateToProps, null)(ReviewsList);

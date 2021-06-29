@@ -52,11 +52,15 @@ export const sortOffers = (values, sortBy, city) => {
   }
 };
 
+export const sortComments = (values) => (
+  values.slice().sort((a, b) => new Date(b.date) - new Date(a.date))
+);
+
 export const isCheckedAuth = (authorizationStatus) => (
   authorizationStatus === AuthorizationStatus.UNKNOWN
 );
 
-export const adaptKeys = (array) => (
+export const adaptOffersKeys = (array) => (
   array.map((obj) => (
     {
       bedrooms: obj.bedrooms,
@@ -82,4 +86,31 @@ export const adaptKeys = (array) => (
       type: obj.type,
     }
   ))
+);
+
+export const adaptCommentsKeys = (array) => (
+  array.map((obj) => (
+    {
+      comment: obj.comment,
+      date: obj.date,
+      id: obj.id,
+      rating: obj.rating,
+      user: {
+        id: obj.user.id,
+        name: obj.user.name,
+        'avatarUrl': obj.user.avatar_url,
+        'isPro': obj.user.is_pro,
+      },
+    }
+  ))
+);
+
+export const adaptUserKeys = (data) => (
+  {
+    email: data.email,
+    id: data.id,
+    name: data.name,
+    'avatarUrl': data.avatar_url,
+    'isPro': data.is_pro,
+  }
 );

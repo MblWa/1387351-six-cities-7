@@ -3,6 +3,9 @@ export const ActionType = {
   SELECT_OFFERS: 'city/selectOffers',
   SORT_OFFERS: 'offers/sortOffers',
   LOAD_OFFERS: 'data/loadOffers',
+  LOAD_ROOM: 'data/loadRoom',
+  LOAD_OFFERS_NEARBY: 'data/loadOffersNearby',
+  LOAD_COMMENTS: 'data/loadComments',
   REQUIRED_AUTHORIZATION: 'user/requiredAuthorization',
   LOGIN: 'user/login',
   LOGOUT: 'user/logout',
@@ -26,6 +29,18 @@ export const ActionCreator = {
   loadOffers: (offers) => ({
     type: ActionType.LOAD_OFFERS,
     offers,
+  }),
+  loadOffersNearby: (offersNearby) => ({
+    type: ActionType.LOAD_OFFERS_NEARBY,
+    offersNearby,
+  }),
+  loadComments: (comments) => ({
+    type: ActionType.LOAD_COMMENTS,
+    comments,
+  }),
+  loadRoom: (room) => ({
+    type: ActionType.LOAD_ROOM,
+    room,
   }),
   requireAuthorization: (status) => ({
     type: ActionType.REQUIRED_AUTHORIZATION,

@@ -56,3 +56,12 @@ export const cityProp = PropTypes.shape({
   }).isRequired,
   name: PropTypes.string.isRequired,
 }).isRequired;
+
+export const userProp = PropTypes.shape({
+  email: PropTypes.string.isRequired,
+  avatarUrl: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  isPro: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  loginError: PropTypes.string.isRequired,
+}).isRequired;

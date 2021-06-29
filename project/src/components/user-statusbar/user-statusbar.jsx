@@ -45,7 +45,7 @@ UserStatusbar.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  email: state.user,
+  email: state.user.email,
   authorizationStatus: state.authorizationStatus,
 });
 

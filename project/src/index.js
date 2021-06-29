@@ -5,7 +5,6 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './components/app/app';
-import reviews from './mocks/reviews';
 import { createAPI } from './services/api';
 import { reducer } from './store/reducer';
 import { ActionCreator } from './store/action';
@@ -14,10 +13,6 @@ import { AuthorizationStatus } from './const';
 
 const api = createAPI(
   () => store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH)),
-  (error) => {
-    store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
-    store.dispatch(ActionCreator.setError(error));
-  },
 );
 
 const composeEnhancers = composeWithDevTools({trace: true, traceLimit: 25 });
@@ -34,9 +29,7 @@ store.dispatch(fetchOffersList());
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App
-        reviews={reviews}
-      />
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));
