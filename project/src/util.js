@@ -67,15 +67,15 @@ export const adaptOffersKeys = (array) => (
       city: obj.city,
       description: obj.description,
       goods: obj.goods,
-      'isFavorite': obj.is_favorite,
-      'isPremium': obj.is_premium,
-      'maxAdults': obj.max_adults,
-      'previewImage': obj.preview_image,
+      isFavorite: obj.is_favorite,
+      isPremium: obj.is_premium,
+      maxAdults: obj.max_adults,
+      previewImage: obj.preview_image,
       host: {
         id: obj.host.id,
         name: obj.host.name,
-        'avatarUrl': obj.host.avatar_url,
-        'isPro': obj.host.is_pro,
+        avatarUrl: obj.host.avatar_url,
+        isPro: obj.host.is_pro,
       },
       id: obj.id,
       images: obj.images,
@@ -98,8 +98,8 @@ export const adaptCommentsKeys = (array) => (
       user: {
         id: obj.user.id,
         name: obj.user.name,
-        'avatarUrl': obj.user.avatar_url,
-        'isPro': obj.user.is_pro,
+        avatarUrl: obj.user.avatar_url,
+        isPro: obj.user.is_pro,
       },
     }
   ))
@@ -110,7 +110,7 @@ export const adaptUserKeys = (data) => (
     email: data.email,
     id: data.id,
     name: data.name,
-    'avatarUrl': data.avatar_url,
-    'isPro': data.is_pro,
+    avatarUrl: data.avatar_url,
+    isPro: data.is_pro,
   }
 );
