@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { postComment } from '../../store/api-actions';
 import Star from '../star/star';
 import { Rating } from '../../const';
-import { userProp } from '../../prop-types/props';
 
-function ReviewForm({ id, user, onSubmit }) {
+function ReviewForm({ id, onSubmit }) {
   const [rating, setRating] = useState(0);
   const commentRef = useRef();
 
@@ -58,16 +57,10 @@ function ReviewForm({ id, user, onSubmit }) {
 
 ReviewForm.propTypes = {
   id: PropTypes.number.isRequired,
-  user: userProp,
   onSubmit: PropTypes.func.isRequired,
 };
 
-ReviewForm.defaultProps = {
-  user: { id: null },
-};
-
 const mapStateToProps = (state) => ({
-  user: state.user,
   id: state.room.id,
 });
 
