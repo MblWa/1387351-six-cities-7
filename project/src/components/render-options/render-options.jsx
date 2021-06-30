@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { SortByOptions } from '../../const';
 import { connect } from 'react-redux';
+import { SortByOptions } from '../../const';
 import { ActionCreator } from '../../store/action';
 
 function RenderOptions({ onOptionSelected, selectedSortBy }) {

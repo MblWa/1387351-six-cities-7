@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '../header/header';
 import { Link } from 'react-router-dom';
+import Header from '../header/header';
 import { AppRoute } from '../../const';
 
 function NotFound() {
@@ -12,7 +12,7 @@ function NotFound() {
       <div className="container" style={{textAlign: 'center'}}>
         <h1>404. Page not found</h1>
         <Link to={ROOT} style={{textDecoration: 'underline'}}>
-          Вернуться на главную
+          Return to main page
         </Link>
       </div>
     </div>

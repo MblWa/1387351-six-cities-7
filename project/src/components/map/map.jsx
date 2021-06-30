@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { offerProp, cityProp } from '../../prop-types/props';
-import useMap from '../../hooks/useMap';
 import leaflet from 'leaflet';
+import useMap from '../../hooks/useMap';
+import PropTypes from 'prop-types';
 import { DEFAULT_CUSTOM_ICON, ACTIVE_CUSTOM_ICON } from '../../const';
 
 function Map({ city, offers, selectedOffer }) {

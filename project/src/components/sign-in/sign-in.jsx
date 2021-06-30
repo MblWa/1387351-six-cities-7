@@ -1,12 +1,11 @@
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
+import { useHistory, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Alert from '../alert/alert';
 import Header from '../header/header';
-import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { login } from '../../store/api-actions';
 import { cityProp } from '../../prop-types/props';
-import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { ActionCreator } from '../../store/action';
 
@@ -82,7 +81,7 @@ SignIn.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  error: state.error,
+  error: state.user.loginError,
   selectedCity: state.city,
 });
 

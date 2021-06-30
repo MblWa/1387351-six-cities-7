@@ -5,30 +5,25 @@ import { connect } from 'react-redux';
 import { AuthorizationStatus } from '../../const';
 
 
-function PrivateRoute({render, path, exact, authorizationStatus, isPublic, redirectRoute}) {
+function PrivateRoute({render, path, exact, authorizationStatus, redirectRoute}) {
   return (
     <Route
       path={path}
       exact={exact}
       render={(routeProps) => (
-        (authorizationStatus === AuthorizationStatus.AUTH ? isPublic : !isPublic)
-          ? <Redirect to={redirectRoute} />
-          : render(routeProps))}
+        (authorizationStatus === AuthorizationStatus.AUTH)
+          ? render(routeProps)
+          : <Redirect to={redirectRoute} />)}
     />
   );
 }
 
 PrivateRoute.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
-  isPublic: PropTypes.bool,
   exact: PropTypes.bool.isRequired,
   path: PropTypes.string.isRequired,
   redirectRoute: PropTypes.string.isRequired,
   render: PropTypes.func.isRequired,
-};
-
-PrivateRoute.defaultProps = {
-  isPublic: false,
 };
 
 const mapStateToProps = (state) => ({
