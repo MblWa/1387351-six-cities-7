@@ -3,6 +3,10 @@ import {AuthorizationStatus} from './const';
 
 const offersByCity = {};
 
+export const getOffersByCity = (city) => (
+  offersByCity[city.name] ? offersByCity[city.name] : []
+);
+
 export const arrangeOffersByCity = (offers, city) => {
   offers.forEach((offer) => {
     if (!offersByCity[offer.city.name]) {
@@ -15,29 +19,9 @@ export const arrangeOffersByCity = (offers, city) => {
   return getOffersByCity(city);
 };
 
-
-export const convertDateToMonthAndDate = (date) => (
-  new Date(date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
-);
-
-export const capitalize = (word) => (
-  word && word[0].toUpperCase() + word.slice(1)
-);
-
-export const calculateRatingPercent = (rating) => (
-  `${(Math.round(rating) * 20)}%`
-);
-
-export const getOffersByCity = (city) => (
-  offersByCity[city.name] ? offersByCity[city.name] : []
-);
-
-export const selectPluralFormForNoun = (value, singleForm, pluralForm) => (
-  value === 1 ? singleForm : pluralForm
-);
-
 export const sortOffers = (values, sortBy, city) => {
   const shallowCopy = values.slice();
+
   switch (sortBy) {
     case SortByOptions.POPULAR:
       return getOffersByCity(city);
@@ -52,8 +36,20 @@ export const sortOffers = (values, sortBy, city) => {
   }
 };
 
-export const sortComments = (values) => (
-  values.slice().sort((a, b) => new Date(b.date) - new Date(a.date))
+export const convertDateToMonthAndDate = (date) => (
+  new Date(date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
+);
+
+export const capitalize = (word) => (
+  word && word[0].toUpperCase() + word.slice(1)
+);
+
+export const calculateRatingPercent = (rating) => (
+  `${(Math.round(rating) * 20)}%`
+);
+
+export const selectPluralFormForNoun = (value, singleForm, pluralForm) => (
+  value === 1 ? singleForm : pluralForm
 );
 
 export const isCheckedAuth = (authorizationStatus) => (

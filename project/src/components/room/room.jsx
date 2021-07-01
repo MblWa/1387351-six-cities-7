@@ -8,16 +8,16 @@ import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { reviewProp, offerProp } from '../../prop-types/props';
-import { capitalize, calculateRatingPercent, sortComments } from '../../util';
+import { capitalize, calculateRatingPercent } from '../../util';
 import { fetchRoom, fetchOffersNearby, fetchComments } from '../../store/api-actions';
-import { getOffersNearby, getRoom, getComments, getRoomLoadedStatus } from '../../store/app-data/selectors';
+import { getOffersNearby, getRoom, getSortedComments, getRoomLoadedStatus } from '../../store/app-data/selectors';
 import { MAXIMUM_NEARBY_OFFERS_COUNT, MAXIMUM_OFFER_IMAGES_COUNT } from '../../const';
 import { AppRoute } from '../../const';
 
 function Room({ room, onLoad, isRoomLoaded, offersNearby, comments }) {
   const { id } = useParams();
   const history = useHistory();
-  const reviews = sortComments(comments);
+  const reviews = comments;
 
   useEffect(() => {
     onLoad(id, () => history.push(AppRoute.NOT_FOUND));
@@ -173,7 +173,7 @@ Room.defaultProps = {
 const mapStateToProps = (state) => ({
   offersNearby: getOffersNearby(state),
   room: getRoom(state),
-  comments: getComments(state),
+  comments: getSortedComments(state),
   isRoomLoaded: getRoomLoadedStatus(state),
 });
 

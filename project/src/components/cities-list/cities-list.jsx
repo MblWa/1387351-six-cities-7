@@ -1,18 +1,19 @@
 import React,  { useState }  from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import RenderOptions from '../render-options/render-options';
 import { changeCity } from '../../store/action';
 import { getCity, getSortBy } from '../../store/ui-interaction/selectors';
-import { getOffersByCity, sortOffers, selectPluralFormForNoun } from '../../util';
-import { cityProp } from '../../prop-types/props';
-import { CITIES_LIST } from '../../const';
+import { getSortedOffers } from '../../store/app-data/selectors';
+import { selectPluralFormForNoun } from '../../util';
+import { cityProp, offerProp } from '../../prop-types/props';
+import { AppRoute, CITIES_LIST } from '../../const';
 
-function CitiesList({ selectedCity, sortBy, onCityClick }) {
+function CitiesList({ selectedCity, sortBy, selectedOffers, onCityClick }) {
   const [selectedOffer, setSelectedOffer] = useState({id: null});
-  const selectedOffers = sortOffers(getOffersByCity(selectedCity), sortBy, selectedCity);
   const offersCount = selectedOffers.length;
 
   return (
@@ -23,12 +24,12 @@ function CitiesList({ selectedCity, sortBy, onCityClick }) {
           <ul className="locations__list tabs__list">
             {Object.values(CITIES_LIST).map((city) => (
               <li className="locations__item" key={city.name} onClick={onCityClick}>
-                <a
-                  href="#"
+                <Link
+                  to={AppRoute.ROOT}
                   className={selectedCity.name === city.name ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item'}
                 >
                   <span>{city.name}</span>
-                </a>
+                </Link>
               </li>
             ),
             )}
@@ -64,6 +65,7 @@ function CitiesList({ selectedCity, sortBy, onCityClick }) {
 }
 
 const mapStateToProps = (state) => ({
+  selectedOffers: getSortedOffers(state),
   selectedCity: getCity(state),
   sortBy: getSortBy(state),
 });
@@ -76,6 +78,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 CitiesList.propTypes = {
+  selectedOffers: PropTypes.arrayOf(offerProp).isRequired,
   selectedCity: cityProp,
   sortBy: PropTypes.string.isRequired,
   onCityClick: PropTypes.func.isRequired,
