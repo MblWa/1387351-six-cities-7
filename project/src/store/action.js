@@ -1,3 +1,5 @@
+import { createAction } from '@reduxjs/toolkit';
+
 export const ActionType = {
   CHANGE_CITY: 'city/changeCity',
   SORT_OFFERS: 'offers/sortOffers',
@@ -12,55 +14,42 @@ export const ActionType = {
   RESET_ERROR: 'error/resetError',
 };
 
-export const changeCity = (city) => ({
-  type: ActionType.CHANGE_CITY,
-  city,
-});
+export const changeCity = createAction(ActionType.CHANGE_CITY, (city) => ({
+  payload: city,
+}));
 
-export const sortOffers = (sortBy) => ({
-  type: ActionType.SORT_OFFERS,
-  sortBy,
-});
+export const sortOffers = createAction(ActionType.SORT_OFFERS, (sortBy) => ({
+  payload: sortBy,
+}));
 
-export const loadOffers = (offers) => ({
-  type: ActionType.LOAD_OFFERS,
-  offers,
-});
+export const loadOffers = createAction(ActionType.LOAD_OFFERS, (offers) => ({
+  payload: offers,
+}));
 
-export const loadOffersNearby = (offersNearby) => ({
-  type: ActionType.LOAD_OFFERS_NEARBY,
-  offersNearby,
-});
+export const loadOffersNearby = createAction(ActionType.LOAD_OFFERS_NEARBY, (offersNearby) => ({
+  payload: offersNearby,
+}));
 
-export const loadComments = (comments) => ({
-  type: ActionType.LOAD_COMMENTS,
-  comments,
-});
+export const loadComments = createAction(ActionType.LOAD_COMMENTS, (comments) => ({
+  payload: comments,
+}));
 
-export const loadRoom = (room) => ({
-  type: ActionType.LOAD_ROOM,
-  room,
-});
+export const loadRoom = createAction(ActionType.LOAD_ROOM, (room) => ({
+  payload: room,
+}));
 
-export const requireAuthorization = (status) => ({
-  type: ActionType.REQUIRED_AUTHORIZATION,
-  status,
-});
+export const requireAuthorization = createAction(ActionType.REQUIRED_AUTHORIZATION, (status) => ({
+  payload: status,
+}));
 
-export const login = (user) => ({
-  type: ActionType.LOGIN,
-  user,
-});
+export const login = createAction(ActionType.LOGIN, (user) => ({
+  payload: user,
+}));
 
-export const  logout = () => ({
-  type: ActionType.LOGOUT,
-});
+export const logout = createAction(ActionType.LOGOUT);
 
-export const  setError = (error) => ({
-  type: ActionType.SET_ERROR,
-  error,
-});
+export const  setError = createAction(ActionType.SET_ERROR, (error) => ({
+  payload: error,
+}));
 
-export const  resetError = () => ({
-  type: ActionType.RESET_ERROR,
-});
+export const  resetError = createAction(ActionType.RESET_ERROR);

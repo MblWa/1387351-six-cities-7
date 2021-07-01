@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { NameSpace } from '../root-reducer';
 import { getCity, getSortBy } from '../ui-interaction/selectors';
-import { sortOffers } from '../../util';
+import { SortByOptions } from '../../const';
 
 export const getOffers = (state) => state[NameSpace.DATA].offers;
 export const getOffersLoadedStatus = (state) => state[NameSpace.DATA].isOffersLoaded;
@@ -13,8 +13,25 @@ export const getRoomLoadedStatus = (state) => state[NameSpace.DATA].isRoomLoaded
 const getComments = (state) => state[NameSpace.DATA].comments;
 
 export const getSortedComments = createSelector(getComments, (values) => (
-  values.sort((a, b) => new Date(b.date) - new Date(a.date))
+  values.slice().sort((a, b) => new Date(b.date) - new Date(a.date))
 ));
+
+const sortOffers = (values, sortBy, city) => {
+  const shallowCopy = values[city.name].slice();
+
+  switch (sortBy) {
+    case SortByOptions.POPULAR:
+      return values[city.name];
+    case SortByOptions.PRICE_LOW:
+      return shallowCopy.sort((a, b) => a.price - b.price);
+    case SortByOptions.PRICE_HIGH:
+      return shallowCopy.sort((a, b) => b.price - a.price);
+    case SortByOptions.TOP_RATED:
+      return shallowCopy.sort((a, b) => b.rating - a.rating);
+    default:
+      return shallowCopy;
+  }
+};
 
 export const getSortedOffers = createSelector(
   getOffers,

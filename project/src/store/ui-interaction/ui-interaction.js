@@ -1,30 +1,21 @@
-import { ActionType } from '../action';
+import { createReducer } from '@reduxjs/toolkit';
 import { CITIES_LIST, SortByOptions } from '../../const';
+import { changeCity, sortOffers } from '../action';
 
 const initialState = {
   city: CITIES_LIST.PARIS,
   sortBy: SortByOptions.POPULAR,
 };
 
-const uiInteraction = (state = initialState, action) => {
-  const { type } = action;
-
-  switch (type) {
-    case ActionType.CHANGE_CITY:
-      return {
-        ...state,
-        city: action.city,
-        sortBy: initialState.sortBy,
-      };
-    case ActionType.SORT_OFFERS:
-      return {
-        ...state,
-        sortBy: action.sortBy,
-      };
-    default:
-      return state;
-  }
-};
-
+const uiInteraction = createReducer(initialState, (builder) => {
+  builder
+    .addCase(changeCity, (state, action) => {
+      state.city = action.payload;
+      state.sortBy = initialState.sortBy;
+    })
+    .addCase(sortOffers, (state, action) => {
+      state.sortBy = action.payload;
+    });
+});
 
 export { uiInteraction };

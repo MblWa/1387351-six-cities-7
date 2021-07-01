@@ -1,6 +1,7 @@
-import { ActionType } from '../action';
+import { createReducer } from '@reduxjs/toolkit';
 import { adaptUserKeys } from '../../util';
 import { AuthorizationStatus } from '../../const';
+import { login, logout, requireAuthorization, resetError, setError } from '../action';
 
 const userLocalStorage = JSON.parse(localStorage.getItem('user')) ?? {};
 
@@ -16,55 +17,34 @@ const initialState = {
   },
 };
 
-const user = (state = initialState, action) => {
-  const { type } = action;
-
-  switch (type) {
-    case ActionType.REQUIRED_AUTHORIZATION:
-      return {
-        ...state,
-        authorizationStatus: action.status,
+const user = createReducer(initialState, (builder) => {
+  builder
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(login, (state, action) => {
+      state.user = {
+        ...adaptUserKeys(action.payload),
+        loginError: '',
       };
-    case ActionType.LOGIN:
-      return {
-        ...state,
-        user: {
-          ...adaptUserKeys(action.user),
-          loginError: '',
-        },
+    })
+    .addCase(logout, (state) => {
+      state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+      state.user = {
+        email: '',
+        id: null,
+        name: '',
+        avatarUrl: '',
+        isPro: false,
+        loginError: '',
       };
-    case ActionType.LOGOUT:
-      return {
-        ...state,
-        authorizationStatus: AuthorizationStatus.NO_AUTH,
-        user: {
-          email: '',
-          id: null,
-          name: '',
-          avatarUrl: '',
-          isPro: false,
-          loginError: '',
-        },
-      };
-    case ActionType.SET_ERROR:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          loginError: action.error,
-        },
-      };
-    case ActionType.RESET_ERROR:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          loginError: '',
-        },
-      };
-    default:
-      return state;
-  }
-};
+    })
+    .addCase(setError, (state, action) => {
+      state.user.loginError = action.payload;
+    })
+    .addCase(resetError, (state, action) => {
+      state.user.loginError = '';
+    });
+});
 
 export { user };

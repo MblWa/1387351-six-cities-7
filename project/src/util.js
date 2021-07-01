@@ -1,13 +1,8 @@
-import { SortByOptions } from './const';
 import {AuthorizationStatus} from './const';
 
-const offersByCity = {};
+export const arrangeOffersByCity = (offers) => {
+  const offersByCity = {};
 
-export const getOffersByCity = (city) => (
-  offersByCity[city.name] ? offersByCity[city.name] : []
-);
-
-export const arrangeOffersByCity = (offers, city) => {
   offers.forEach((offer) => {
     if (!offersByCity[offer.city.name]) {
       offersByCity[offer.city.name] = [offer];
@@ -16,24 +11,7 @@ export const arrangeOffersByCity = (offers, city) => {
     }
   });
 
-  return getOffersByCity(city);
-};
-
-export const sortOffers = (values, sortBy, city) => {
-  const shallowCopy = values.slice();
-
-  switch (sortBy) {
-    case SortByOptions.POPULAR:
-      return getOffersByCity(city);
-    case SortByOptions.PRICE_LOW:
-      return shallowCopy.sort((a, b) => a.price - b.price);
-    case SortByOptions.PRICE_HIGH:
-      return shallowCopy.sort((a, b) => b.price - a.price);
-    case SortByOptions.TOP_RATED:
-      return shallowCopy.sort((a, b) => b.rating - a.rating);
-    default:
-      return shallowCopy;
-  }
+  return offersByCity;
 };
 
 export const convertDateToMonthAndDate = (date) => (

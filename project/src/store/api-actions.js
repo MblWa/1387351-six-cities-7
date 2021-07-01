@@ -12,24 +12,24 @@ import { AuthorizationStatus, APIRoute } from '../const';
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.OFFERS)
-    .then(({data}) => dispatch(loadOffers(data)))
+    .then(({ data }) => dispatch(loadOffers(data)))
 );
 
 export const fetchRoom = (id, cb) => (dispatch, _getState, api) => (
   api.get(APIRoute.ROOM + id.toString())
-    .then(({data}) => dispatch(loadRoom(data)))
+    .then(({ data }) => dispatch(loadRoom(data)))
     .catch(() => cb())
 );
 
 export const fetchComments = (id) => (dispatch, _getState, api) => (
   api.get(APIRoute.COMMENTS + id.toString())
-    .then(({data}) => dispatch(loadComments(data)))
+    .then(({ data }) => dispatch(loadComments(data)))
     .catch(() => {})
 );
 
 export const fetchOffersNearby = (id) => (dispatch, _getState, api) => (
   api.get(APIRoute.ROOM + id.toString() + APIRoute.NEARBY)
-    .then(({data}) => dispatch(loadOffersNearby(data)))
+    .then(({ data }) => dispatch(loadOffersNearby(data)))
     .catch(() => {})
 );
 
@@ -46,13 +46,13 @@ export const login = ({ login: email, password }, cb) => (dispatch, _getState, a
       localStorage.setItem('user', JSON.stringify(data));
       dispatch(openSession(data));
     })
-    .then((data) => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
+    .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
     .then(() => cb())
     .catch(({response}) => dispatch(setError(`${response.status}`)))
 );
 
 export const postComment = ({comment, rating}, id) => (dispatch, _getState, api) => (
-  api.post(APIRoute.COMMENTS + id.toString(), { comment, rating })
+  api.post(APIRoute.COMMENTS + id.toString(), { comment, rating }, {headers: {'x-token': localStorage.getItem('token') ?? ''}})
     .then(({ data }) => dispatch(loadComments(data)))
     .catch(() => {})
 );
