@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { postComment } from '../../store/api-actions';
 import Star from '../star/star';
+import { getRoomId } from '../../store/app-data/selectors';
 import { Rating } from '../../const';
 
 function ReviewForm({ id, onSubmit }) {
@@ -61,7 +62,7 @@ ReviewForm.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  id: state.room.id,
+  id: getRoomId(state),
 });
 
 

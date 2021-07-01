@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { AuthorizationStatus } from '../../const';
 import { logout } from '../../store/api-actions';
+import { getAuthorizationStatus, getUserEmail } from '../../store/user/selectors';
 
 function UserStatusbar({ email, authorizationStatus, logoutUser }) {
   const { ROOT, LOGIN, FAVORITES } = AppRoute;
@@ -45,8 +46,8 @@ UserStatusbar.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  email: state.user.email,
-  authorizationStatus: state.authorizationStatus,
+  email: getUserEmail(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

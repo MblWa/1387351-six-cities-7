@@ -4,13 +4,15 @@ import { connect } from 'react-redux';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import RenderOptions from '../render-options/render-options';
-import { changeCity, selectOffers } from '../../store/action';
-import { offerProp, cityProp } from '../../prop-types/props';
+import { changeCity } from '../../store/action';
+import { getCity, getSortBy } from '../../store/ui-interaction/selectors';
+import { getOffersByCity, sortOffers, selectPluralFormForNoun } from '../../util';
+import { cityProp } from '../../prop-types/props';
 import { CITIES_LIST } from '../../const';
-import { selectPluralFormForNoun } from '../../util';
 
-function CitiesList({ selectedCity, selectedOffers, onCityClick }) {
+function CitiesList({ selectedCity, sortBy, onCityClick }) {
   const [selectedOffer, setSelectedOffer] = useState({id: null});
+  const selectedOffers = sortOffers(getOffersByCity(selectedCity), sortBy, selectedCity);
   const offersCount = selectedOffers.length;
 
   return (
@@ -62,22 +64,21 @@ function CitiesList({ selectedCity, selectedOffers, onCityClick }) {
 }
 
 const mapStateToProps = (state) => ({
-  selectedCity: state.city,
-  selectedOffers: state.offers,
+  selectedCity: getCity(state),
+  sortBy: getSortBy(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onCityClick(evt) {
     const city = CITIES_LIST[evt.target.textContent.toUpperCase()];
     dispatch(changeCity(city));
-    dispatch(selectOffers(city));
   },
 });
 
 CitiesList.propTypes = {
   selectedCity: cityProp,
+  sortBy: PropTypes.string.isRequired,
   onCityClick: PropTypes.func.isRequired,
-  selectedOffers: PropTypes.arrayOf(offerProp).isRequired,
 };
 
 export { CitiesList };

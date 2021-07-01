@@ -1,6 +1,5 @@
 export const ActionType = {
   CHANGE_CITY: 'city/changeCity',
-  SELECT_OFFERS: 'city/selectOffers',
   SORT_OFFERS: 'offers/sortOffers',
   LOAD_OFFERS: 'data/loadOffers',
   LOAD_ROOM: 'data/loadRoom',
@@ -15,11 +14,6 @@ export const ActionType = {
 
 export const changeCity = (city) => ({
   type: ActionType.CHANGE_CITY,
-  city,
-});
-
-export const selectOffers = (city) => ({
-  type: ActionType.SELECT_OFFERS,
   city,
 });
 

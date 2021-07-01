@@ -9,6 +9,8 @@ import Favorites from '../favorites/favorites';
 import NotFound from '../not-found/not-found';
 import LoadingScreen from '../loading-screen/loading-screen';
 import PrivateRoute from '../private-route/private-route';
+import { getOffersLoadedStatus } from '../../store/app-data/selectors';
+import { getAuthorizationStatus } from '../../store/user/selectors';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { isCheckedAuth } from '../../util';
 
@@ -58,8 +60,8 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-  isOffersLoaded: state.isOffersLoaded,
+  authorizationStatus: getAuthorizationStatus(state),
+  isOffersLoaded: getOffersLoadedStatus(state),
 });
 
 export { App };

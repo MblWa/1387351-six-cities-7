@@ -8,14 +8,16 @@ import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { reviewProp, offerProp } from '../../prop-types/props';
-import { capitalize, calculateRatingPercent } from '../../util';
+import { capitalize, calculateRatingPercent, sortComments } from '../../util';
 import { fetchRoom, fetchOffersNearby, fetchComments } from '../../store/api-actions';
+import { getOffersNearby, getRoom, getComments, getRoomLoadedStatus } from '../../store/app-data/selectors';
 import { MAXIMUM_NEARBY_OFFERS_COUNT, MAXIMUM_OFFER_IMAGES_COUNT } from '../../const';
 import { AppRoute } from '../../const';
 
-function Room({ room, onLoad, isRoomLoaded, offersNearby, reviews }) {
+function Room({ room, onLoad, isRoomLoaded, offersNearby, comments }) {
   const { id } = useParams();
   const history = useHistory();
+  const reviews = sortComments(comments);
 
   useEffect(() => {
     onLoad(id, () => history.push(AppRoute.NOT_FOUND));
@@ -40,6 +42,7 @@ function Room({ room, onLoad, isRoomLoaded, offersNearby, reviews }) {
     goods,
     host,
     title,
+    maxAdults,
   } = room;
 
   const typeCapitalized = capitalize(type);
@@ -97,7 +100,7 @@ function Room({ room, onLoad, isRoomLoaded, offersNearby, reviews }) {
                   {bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max 4 adults
+                  Max {maxAdults} adults
                 </li>
               </ul>
               <div className="property__price">
@@ -157,7 +160,7 @@ function Room({ room, onLoad, isRoomLoaded, offersNearby, reviews }) {
 
 Room.propTypes = {
   offersNearby: PropTypes.arrayOf(offerProp).isRequired,
-  reviews: PropTypes.arrayOf(reviewProp).isRequired,
+  comments: PropTypes.arrayOf(reviewProp).isRequired,
   room: PropTypes.object,
   onLoad: PropTypes.func.isRequired,
   isRoomLoaded: PropTypes.bool.isRequired,
@@ -168,10 +171,10 @@ Room.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  offersNearby: state.offersNearby,
-  room: state.room,
-  reviews: state.comments,
-  isRoomLoaded: state.isRoomLoaded,
+  offersNearby: getOffersNearby(state),
+  room: getRoom(state),
+  comments: getComments(state),
+  isRoomLoaded: getRoomLoadedStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

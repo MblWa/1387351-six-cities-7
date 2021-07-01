@@ -8,6 +8,8 @@ import { login } from '../../store/api-actions';
 import { cityProp } from '../../prop-types/props';
 import { AppRoute } from '../../const';
 import { resetError } from '../../store/action';
+import { getCity } from '../../store/ui-interaction/selectors';
+import { getUserLoginError } from '../../store/user/selectors';
 
 function SignIn({ error, selectedCity, onSubmit, onClick }) {
   const loginRef = useRef();
@@ -81,8 +83,8 @@ SignIn.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  error: state.user.loginError,
-  selectedCity: state.city,
+  error: getUserLoginError(state),
+  selectedCity: getCity(state),
 });
 
 

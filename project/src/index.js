@@ -4,7 +4,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import App from './components/app/app';
 import { createAPI } from './services/api';
-import { reducer } from './store/reducer';
+import rootReducer from './store/root-reducer';
 import { requireAuthorization } from './store/action';
 import { checkAuth, fetchOffersList } from './store/api-actions';
 import { AuthorizationStatus } from './const';
@@ -14,7 +14,7 @@ const api = createAPI(
 );
 
 const store = configureStore({
-  reducer: reducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {

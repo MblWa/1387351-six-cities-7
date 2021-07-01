@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SortByOptions } from '../../const';
 import { sortOffers } from '../../store/action';
+import { SortByOptions } from '../../const';
+import { getSortBy } from '../../store/ui-interaction/selectors';
 
 function RenderOptions({ onOptionSelected, selectedSortBy }) {
   const [isClosed, setIsClosed] = useState(true);
@@ -48,7 +49,7 @@ function RenderOptions({ onOptionSelected, selectedSortBy }) {
 }
 
 const mapStateToProps = (state) => ({
-  selectedSortBy: state.sortBy,
+  selectedSortBy: getSortBy(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -5,6 +5,7 @@ import Review from '../review/review';
 import ReviewForm from '../review-form/review-form';
 import { reviewProp } from '../../prop-types/props';
 import { AuthorizationStatus } from '../../const';
+import { getAuthorizationStatus } from '../../store/user/selectors';
 
 function ReviewsList({ reviews, authorizationStatus }) {
   const reviewsCount = reviews.length;
@@ -30,7 +31,7 @@ ReviewsList.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 export { ReviewsList };
