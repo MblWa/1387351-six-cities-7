@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { SortByOptions } from '../../const';
-import { ActionCreator } from '../../store/action';
+import { sortOffers } from '../../store/action';
 
 function RenderOptions({ onOptionSelected, selectedSortBy }) {
   const [isClosed, setIsClosed] = useState(true);
@@ -53,7 +53,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onOptionSelected(evt) {
-    dispatch(ActionCreator.sortOffers(evt.target.textContent));
+    dispatch(sortOffers(evt.target.textContent));
   },
 });
 

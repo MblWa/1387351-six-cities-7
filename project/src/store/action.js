@@ -13,51 +13,60 @@ export const ActionType = {
   RESET_ERROR: 'error/resetError',
 };
 
-export const ActionCreator = {
-  changeCity: (city) => ({
-    type: ActionType.CHANGE_CITY,
-    city,
-  }),
-  selectOffers: (city) => ({
-    type: ActionType.SELECT_OFFERS,
-    city,
-  }),
-  sortOffers: (sortBy) => ({
-    type: ActionType.SORT_OFFERS,
-    sortBy,
-  }),
-  loadOffers: (offers) => ({
-    type: ActionType.LOAD_OFFERS,
-    offers,
-  }),
-  loadOffersNearby: (offersNearby) => ({
-    type: ActionType.LOAD_OFFERS_NEARBY,
-    offersNearby,
-  }),
-  loadComments: (comments) => ({
-    type: ActionType.LOAD_COMMENTS,
-    comments,
-  }),
-  loadRoom: (room) => ({
-    type: ActionType.LOAD_ROOM,
-    room,
-  }),
-  requireAuthorization: (status) => ({
-    type: ActionType.REQUIRED_AUTHORIZATION,
-    status,
-  }),
-  login: (user) => ({
-    type: ActionType.LOGIN,
-    user,
-  }),
-  logout: () => ({
-    type: ActionType.LOGOUT,
-  }),
-  setError: (error) => ({
-    type: ActionType.SET_ERROR,
-    error,
-  }),
-  resetError: () => ({
-    type: ActionType.RESET_ERROR,
-  }),
-};
+export const changeCity = (city) => ({
+  type: ActionType.CHANGE_CITY,
+  city,
+});
+
+export const selectOffers = (city) => ({
+  type: ActionType.SELECT_OFFERS,
+  city,
+});
+
+export const sortOffers = (sortBy) => ({
+  type: ActionType.SORT_OFFERS,
+  sortBy,
+});
+
+export const loadOffers = (offers) => ({
+  type: ActionType.LOAD_OFFERS,
+  offers,
+});
+
+export const loadOffersNearby = (offersNearby) => ({
+  type: ActionType.LOAD_OFFERS_NEARBY,
+  offersNearby,
+});
+
+export const loadComments = (comments) => ({
+  type: ActionType.LOAD_COMMENTS,
+  comments,
+});
+
+export const loadRoom = (room) => ({
+  type: ActionType.LOAD_ROOM,
+  room,
+});
+
+export const requireAuthorization = (status) => ({
+  type: ActionType.REQUIRED_AUTHORIZATION,
+  status,
+});
+
+export const login = (user) => ({
+  type: ActionType.LOGIN,
+  user,
+});
+
+export const  logout = () => ({
+  type: ActionType.LOGOUT,
+});
+
+export const  setError = (error) => ({
+  type: ActionType.SET_ERROR,
+  error,
+});
+
+export const  resetError = () => ({
+  type: ActionType.RESET_ERROR,
+});

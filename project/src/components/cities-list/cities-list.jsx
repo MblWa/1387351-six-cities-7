@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import RenderOptions from '../render-options/render-options';
-import { ActionCreator } from '../../store/action';
+import { changeCity, selectOffers } from '../../store/action';
 import { offerProp, cityProp } from '../../prop-types/props';
 import { CITIES_LIST } from '../../const';
 import { selectPluralFormForNoun } from '../../util';
@@ -69,8 +69,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onCityClick(evt) {
     const city = CITIES_LIST[evt.target.textContent.toUpperCase()];
-    dispatch(ActionCreator.changeCity(city));
-    dispatch(ActionCreator.selectOffers(city));
+    dispatch(changeCity(city));
+    dispatch(selectOffers(city));
   },
 });
 

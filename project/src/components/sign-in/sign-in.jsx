@@ -7,7 +7,7 @@ import Header from '../header/header';
 import { login } from '../../store/api-actions';
 import { cityProp } from '../../prop-types/props';
 import { AppRoute } from '../../const';
-import { ActionCreator } from '../../store/action';
+import { resetError } from '../../store/action';
 
 function SignIn({ error, selectedCity, onSubmit, onClick }) {
   const loginRef = useRef();
@@ -91,7 +91,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(login(authData, cb));
   },
   onClick() {
-    dispatch(ActionCreator.resetError());
+    dispatch(resetError());
   },
 });
 
