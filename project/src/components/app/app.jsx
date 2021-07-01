@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import Main from '../main/main';
 import SignIn from '../sign-in/sign-in';
@@ -14,8 +13,10 @@ import { getAuthorizationStatus } from '../../store/user/selectors';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { isCheckedAuth } from '../../util';
 
-function App({ authorizationStatus, isOffersLoaded }) {
+function App() {
   const { ROOT, ROOM, LOGIN, FAVORITES, NOT_FOUND } = AppRoute;
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const isOffersLoaded = useSelector(getOffersLoadedStatus);
 
   if (isCheckedAuth(authorizationStatus) || !isOffersLoaded) {
     return (
@@ -54,15 +55,4 @@ function App({ authorizationStatus, isOffersLoaded }) {
   );
 }
 
-App.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-  isOffersLoaded: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  authorizationStatus: getAuthorizationStatus(state),
-  isOffersLoaded: getOffersLoadedStatus(state),
-});
-
-export { App };
-export default connect(mapStateToProps, null)(App);
+export default App;

@@ -1,27 +1,35 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useHistory, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Header from '../header/header';
 import ReviewsList from '../reviews-list/reviews-list';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { reviewProp, offerProp } from '../../prop-types/props';
-import { capitalize, calculateRatingPercent } from '../../util';
+import { capitalize, calculateRatingPercent, selectPluralFormForNoun } from '../../util';
 import { fetchRoom, fetchOffersNearby, fetchComments } from '../../store/api-actions';
 import { getOffersNearby, getRoom, getSortedComments, getRoomLoadedStatus } from '../../store/app-data/selectors';
-import { MAXIMUM_NEARBY_OFFERS_COUNT, MAXIMUM_OFFER_IMAGES_COUNT } from '../../const';
-import { AppRoute } from '../../const';
+import { MAXIMUM_NEARBY_OFFERS_COUNT, MAXIMUM_OFFER_IMAGES_COUNT, AppRoute } from '../../const';
 
-function Room({ room, onLoad, isRoomLoaded, offersNearby, comments }) {
+function Room() {
   const { id } = useParams();
   const history = useHistory();
-  const reviews = comments;
+  const offersNearby = useSelector(getOffersNearby);
+  const room = useSelector(getRoom);
+  const reviews = useSelector(getSortedComments);
+  const isRoomLoaded = useSelector(getRoomLoadedStatus);
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
-    onLoad(id, () => history.push(AppRoute.NOT_FOUND));
-  }, [id, history, onLoad]);
+    const onLoad = (roomId, cb) => {
+      dispatch(fetchRoom(roomId, cb));
+      dispatch(fetchOffersNearby(roomId));
+      dispatch(fetchComments(roomId));
+    };
+
+    onLoad(id, dispatch, () => history.push(AppRoute.NOT_FOUND));
+  }, [id, history, dispatch]);
 
   if (!isRoomLoaded || Number(id) !== room.id) {
     return (
@@ -97,10 +105,10 @@ function Room({ room, onLoad, isRoomLoaded, offersNearby, comments }) {
                   {typeCapitalized}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {bedrooms} Bedrooms
+                  {bedrooms} {selectPluralFormForNoun(bedrooms, 'Bedroom', 'Bedrooms')}
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max {maxAdults} adults
+                  Max {maxAdults} {selectPluralFormForNoun(maxAdults, 'adult', 'adults')}
                 </li>
               </ul>
               <div className="property__price">
@@ -158,32 +166,4 @@ function Room({ room, onLoad, isRoomLoaded, offersNearby, comments }) {
   );
 }
 
-Room.propTypes = {
-  offersNearby: PropTypes.arrayOf(offerProp).isRequired,
-  comments: PropTypes.arrayOf(reviewProp).isRequired,
-  room: PropTypes.object,
-  onLoad: PropTypes.func.isRequired,
-  isRoomLoaded: PropTypes.bool.isRequired,
-};
-
-Room.defaultProps = {
-  room: {},
-};
-
-const mapStateToProps = (state) => ({
-  offersNearby: getOffersNearby(state),
-  room: getRoom(state),
-  comments: getSortedComments(state),
-  isRoomLoaded: getRoomLoadedStatus(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoad(id, cb) {
-    dispatch(fetchRoom(id, cb));
-    dispatch(fetchOffersNearby(id));
-    dispatch(fetchComments(id));
-  },
-});
-
-export { Room };
-export default connect(mapStateToProps, mapDispatchToProps)(Room);
+export default Room;

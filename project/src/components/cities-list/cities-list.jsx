@@ -1,18 +1,26 @@
 import React,  { useState }  from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import RenderOptions from '../render-options/render-options';
 import { changeCity } from '../../store/action';
-import { getCity, getSortBy } from '../../store/ui-interaction/selectors';
+import { getCity } from '../../store/ui-interaction/selectors';
 import { getSortedOffers } from '../../store/app-data/selectors';
 import { selectPluralFormForNoun } from '../../util';
-import { cityProp, offerProp } from '../../prop-types/props';
 import { AppRoute, CITIES_LIST } from '../../const';
 
-function CitiesList({ selectedCity, sortBy, selectedOffers, onCityClick }) {
+function CitiesList() {
+  const selectedOffers = useSelector(getSortedOffers);
+  const selectedCity = useSelector(getCity);
+
+  const dispatch = useDispatch();
+
+  const onCityClick = (evt) => {
+    const city = CITIES_LIST[evt.target.textContent.toUpperCase()];
+    dispatch(changeCity(city));
+  };
+
   const [selectedOffer, setSelectedOffer] = useState({id: null});
   const offersCount = selectedOffers.length;
 
@@ -64,25 +72,4 @@ function CitiesList({ selectedCity, sortBy, selectedOffers, onCityClick }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  selectedOffers: getSortedOffers(state),
-  selectedCity: getCity(state),
-  sortBy: getSortBy(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onCityClick(evt) {
-    const city = CITIES_LIST[evt.target.textContent.toUpperCase()];
-    dispatch(changeCity(city));
-  },
-});
-
-CitiesList.propTypes = {
-  selectedOffers: PropTypes.arrayOf(offerProp).isRequired,
-  selectedCity: cityProp,
-  sortBy: PropTypes.string.isRequired,
-  onCityClick: PropTypes.func.isRequired,
-};
-
-export { CitiesList };
-export default connect(mapStateToProps, mapDispatchToProps)(CitiesList);
+export default CitiesList;

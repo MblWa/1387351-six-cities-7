@@ -1,17 +1,23 @@
 import React, { useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { postComment } from '../../store/api-actions';
 import Star from '../star/star';
 import { getRoomId } from '../../store/app-data/selectors';
 import { Rating } from '../../const';
 
-function ReviewForm({ id, onSubmit }) {
+function ReviewForm() {
+  const id = useSelector(getRoomId);
+  const dispatch = useDispatch();
   const [rating, setRating] = useState(0);
   const commentRef = useRef();
 
   const { MAXIMUM_RATING } = Rating;
   const stars = new Array(MAXIMUM_RATING).fill(null);
+
+
+  const onSubmit = (commentPost, roomId) => {
+    dispatch(postComment(commentPost, roomId));
+  };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -56,21 +62,5 @@ function ReviewForm({ id, onSubmit }) {
   );
 }
 
-ReviewForm.propTypes = {
-  id: PropTypes.number.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-};
 
-const mapStateToProps = (state) => ({
-  id: getRoomId(state),
-});
-
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(commentPost, id) {
-    dispatch(postComment(commentPost, id));
-  },
-});
-
-export { ReviewForm };
-export default connect(mapStateToProps, mapDispatchToProps)(ReviewForm);
+export default ReviewForm;

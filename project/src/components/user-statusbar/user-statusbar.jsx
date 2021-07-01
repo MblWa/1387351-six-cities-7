@@ -1,13 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { AuthorizationStatus } from '../../const';
 import { logout } from '../../store/api-actions';
 import { getAuthorizationStatus, getUserEmail } from '../../store/user/selectors';
 
-function UserStatusbar({ email, authorizationStatus, logoutUser }) {
+function UserStatusbar() {
+  const email = useSelector(getUserEmail);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const dispatch = useDispatch();
+
+  const logoutUser = () => {
+    dispatch(logout());
+  };
+
   const { ROOT, LOGIN, FAVORITES } = AppRoute;
 
   if (authorizationStatus === AuthorizationStatus.AUTH) {
@@ -40,21 +47,4 @@ function UserStatusbar({ email, authorizationStatus, logoutUser }) {
   }
 }
 
-UserStatusbar.propTypes = {
-  email: PropTypes.string.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  email: getUserEmail(state),
-  authorizationStatus: getAuthorizationStatus(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  logoutUser() {
-    dispatch(logout());
-  },
-});
-
-export { UserStatusbar };
-export default connect(mapStateToProps, mapDispatchToProps)(UserStatusbar);
+export default UserStatusbar;
