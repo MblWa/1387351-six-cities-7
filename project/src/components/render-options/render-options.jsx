@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { sortOffers } from '../../store/action';
 import { SortByOptions } from '../../const';
-import { ActionCreator } from '../../store/action';
+import { getSortBy } from '../../store/ui-interaction/selectors';
 
-function RenderOptions({ onOptionSelected, selectedSortBy }) {
+function RenderOptions() {
+  const selectedSortBy = useSelector(getSortBy);
+  const dispatch = useDispatch();
   const [isClosed, setIsClosed] = useState(true);
+
+  const onOptionSelected = (evt) => dispatch(sortOffers(evt.target.textContent));
 
   return (
     <form
@@ -47,20 +51,4 @@ function RenderOptions({ onOptionSelected, selectedSortBy }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  selectedSortBy: state.sortBy,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onOptionSelected(evt) {
-    dispatch(ActionCreator.sortOffers(evt.target.textContent));
-  },
-});
-
-RenderOptions.propTypes = {
-  onOptionSelected: PropTypes.func.isRequired,
-  selectedSortBy: PropTypes.string.isRequired,
-};
-
-export { RenderOptions };
-export default connect(mapStateToProps, mapDispatchToProps)(RenderOptions);
+export default RenderOptions;

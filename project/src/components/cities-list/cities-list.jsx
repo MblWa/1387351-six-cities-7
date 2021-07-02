@@ -1,15 +1,26 @@
 import React,  { useState }  from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import RenderOptions from '../render-options/render-options';
-import { ActionCreator } from '../../store/action';
-import { offerProp, cityProp } from '../../prop-types/props';
-import { CITIES_LIST } from '../../const';
+import { changeCity } from '../../store/action';
+import { getCity } from '../../store/ui-interaction/selectors';
+import { getSortedOffers } from '../../store/app-data/selectors';
 import { selectPluralFormForNoun } from '../../util';
+import { AppRoute, CITIES_LIST } from '../../const';
 
-function CitiesList({ selectedCity, selectedOffers, onCityClick }) {
+function CitiesList() {
+  const selectedOffers = useSelector(getSortedOffers);
+  const selectedCity = useSelector(getCity);
+
+  const dispatch = useDispatch();
+
+  const onCityClick = (evt) => {
+    const city = CITIES_LIST[evt.target.textContent.toUpperCase()];
+    dispatch(changeCity(city));
+  };
+
   const [selectedOffer, setSelectedOffer] = useState({id: null});
   const offersCount = selectedOffers.length;
 
@@ -21,12 +32,12 @@ function CitiesList({ selectedCity, selectedOffers, onCityClick }) {
           <ul className="locations__list tabs__list">
             {Object.values(CITIES_LIST).map((city) => (
               <li className="locations__item" key={city.name} onClick={onCityClick}>
-                <a
-                  href="#"
+                <Link
+                  to={AppRoute.ROOT}
                   className={selectedCity.name === city.name ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item'}
                 >
                   <span>{city.name}</span>
-                </a>
+                </Link>
               </li>
             ),
             )}
@@ -61,24 +72,4 @@ function CitiesList({ selectedCity, selectedOffers, onCityClick }) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  selectedCity: state.city,
-  selectedOffers: state.offers,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onCityClick(evt) {
-    const city = CITIES_LIST[evt.target.textContent.toUpperCase()];
-    dispatch(ActionCreator.changeCity(city));
-    dispatch(ActionCreator.selectOffers(city));
-  },
-});
-
-CitiesList.propTypes = {
-  selectedCity: cityProp,
-  onCityClick: PropTypes.func.isRequired,
-  selectedOffers: PropTypes.arrayOf(offerProp).isRequired,
-};
-
-export { CitiesList };
-export default connect(mapStateToProps, mapDispatchToProps)(CitiesList);
+export default CitiesList;

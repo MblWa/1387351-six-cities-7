@@ -1,6 +1,7 @@
+import { createAction } from '@reduxjs/toolkit';
+
 export const ActionType = {
   CHANGE_CITY: 'city/changeCity',
-  SELECT_OFFERS: 'city/selectOffers',
   SORT_OFFERS: 'offers/sortOffers',
   LOAD_OFFERS: 'data/loadOffers',
   LOAD_ROOM: 'data/loadRoom',
@@ -13,51 +14,42 @@ export const ActionType = {
   RESET_ERROR: 'error/resetError',
 };
 
-export const ActionCreator = {
-  changeCity: (city) => ({
-    type: ActionType.CHANGE_CITY,
-    city,
-  }),
-  selectOffers: (city) => ({
-    type: ActionType.SELECT_OFFERS,
-    city,
-  }),
-  sortOffers: (sortBy) => ({
-    type: ActionType.SORT_OFFERS,
-    sortBy,
-  }),
-  loadOffers: (offers) => ({
-    type: ActionType.LOAD_OFFERS,
-    offers,
-  }),
-  loadOffersNearby: (offersNearby) => ({
-    type: ActionType.LOAD_OFFERS_NEARBY,
-    offersNearby,
-  }),
-  loadComments: (comments) => ({
-    type: ActionType.LOAD_COMMENTS,
-    comments,
-  }),
-  loadRoom: (room) => ({
-    type: ActionType.LOAD_ROOM,
-    room,
-  }),
-  requireAuthorization: (status) => ({
-    type: ActionType.REQUIRED_AUTHORIZATION,
-    status,
-  }),
-  login: (user) => ({
-    type: ActionType.LOGIN,
-    user,
-  }),
-  logout: () => ({
-    type: ActionType.LOGOUT,
-  }),
-  setError: (error) => ({
-    type: ActionType.SET_ERROR,
-    error,
-  }),
-  resetError: () => ({
-    type: ActionType.RESET_ERROR,
-  }),
-};
+export const changeCity = createAction(ActionType.CHANGE_CITY, (city) => ({
+  payload: city,
+}));
+
+export const sortOffers = createAction(ActionType.SORT_OFFERS, (sortBy) => ({
+  payload: sortBy,
+}));
+
+export const loadOffers = createAction(ActionType.LOAD_OFFERS, (offers) => ({
+  payload: offers,
+}));
+
+export const loadOffersNearby = createAction(ActionType.LOAD_OFFERS_NEARBY, (offersNearby) => ({
+  payload: offersNearby,
+}));
+
+export const loadComments = createAction(ActionType.LOAD_COMMENTS, (comments) => ({
+  payload: comments,
+}));
+
+export const loadRoom = createAction(ActionType.LOAD_ROOM, (room) => ({
+  payload: room,
+}));
+
+export const requireAuthorization = createAction(ActionType.REQUIRED_AUTHORIZATION, (status) => ({
+  payload: status,
+}));
+
+export const login = createAction(ActionType.LOGIN, (user) => ({
+  payload: user,
+}));
+
+export const logout = createAction(ActionType.LOGOUT);
+
+export const  setError = createAction(ActionType.SET_ERROR, (error) => ({
+  payload: error,
+}));
+
+export const  resetError = createAction(ActionType.RESET_ERROR);

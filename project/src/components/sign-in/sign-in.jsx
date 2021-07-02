@@ -1,18 +1,29 @@
 import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
 import { useHistory, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Alert from '../alert/alert';
 import Header from '../header/header';
 import { login } from '../../store/api-actions';
-import { cityProp } from '../../prop-types/props';
 import { AppRoute } from '../../const';
-import { ActionCreator } from '../../store/action';
+import { resetError } from '../../store/action';
+import { getCity } from '../../store/ui-interaction/selectors';
+import { getUserLoginError } from '../../store/user/selectors';
 
-function SignIn({ error, selectedCity, onSubmit, onClick }) {
+function SignIn() {
+  const error = useSelector(getUserLoginError);
+  const selectedCity = useSelector(getCity);
+  const dispatch = useDispatch();
   const loginRef = useRef();
   const passwordRef = useRef();
   const history = useHistory();
+
+  const onSubmit = (authData, cb) => {
+    dispatch(login(authData, cb));
+  };
+
+  const onClick = () => {
+    dispatch(resetError());
+  };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -73,27 +84,4 @@ function SignIn({ error, selectedCity, onSubmit, onClick }) {
   );
 }
 
-SignIn.propTypes = {
-  error: PropTypes.string.isRequired,
-  selectedCity: cityProp,
-  onSubmit: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  error: state.user.loginError,
-  selectedCity: state.city,
-});
-
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(authData, cb) {
-    dispatch(login(authData, cb));
-  },
-  onClick() {
-    dispatch(ActionCreator.resetError());
-  },
-});
-
-export { SignIn };
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default SignIn;
