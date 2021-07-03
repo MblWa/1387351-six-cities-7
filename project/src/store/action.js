@@ -7,6 +7,9 @@ export const ActionType = {
   LOAD_ROOM: 'data/loadRoom',
   LOAD_OFFERS_NEARBY: 'data/loadOffersNearby',
   LOAD_COMMENTS: 'data/loadComments',
+  LOAD_FAVORITES: 'data/loadFavorites',
+  UPDATE_OFFER: 'data/updateOffer',
+  RESET_OFFERS: 'data/resetOffers',
   REQUIRED_AUTHORIZATION: 'user/requiredAuthorization',
   LOGIN: 'user/login',
   LOGOUT: 'user/logout',
@@ -38,6 +41,14 @@ export const loadRoom = createAction(ActionType.LOAD_ROOM, (room) => ({
   payload: room,
 }));
 
+export const loadFavorites = createAction(ActionType.LOAD_FAVORITES, (favorites) => ({
+  payload: favorites,
+}));
+
+export const updateOffer = createAction(ActionType.UPDATE_OFFER, (offer) => ({
+  payload: offer,
+}));
+
 export const requireAuthorization = createAction(ActionType.REQUIRED_AUTHORIZATION, (status) => ({
   payload: status,
 }));
@@ -52,4 +63,6 @@ export const  setError = createAction(ActionType.SET_ERROR, (error) => ({
   payload: error,
 }));
 
-export const  resetError = createAction(ActionType.RESET_ERROR);
+export const resetError = createAction(ActionType.RESET_ERROR);
+
+export const resetOffers = createAction(ActionType.RESET_OFFERS);

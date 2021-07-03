@@ -1,14 +1,22 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { OFFER_PATH } from '../../const';
+import { Link, useHistory } from 'react-router-dom';
+import { OFFER_PATH, AppRoute } from '../../const';
 import { offerProp } from '../../prop-types/props';
 import { capitalize, calculateRatingPercent } from '../../util';
+import { postFavorite } from '../../store/api-actions';
 
 function Card({ offer, onMouseEnter, onMouseLeave }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const { rating, previewImage, price, title, type, isPremium, isFavorite, id } = offer;
   const typeCapitalized = capitalize(type);
   const ratingPercent = calculateRatingPercent(rating);
+
+  const changeFavoriteStatus = () => {
+    dispatch(postFavorite(id, !isFavorite, () => history.push(AppRoute.LOGIN)));
+  };
 
   return (
     <article className="cities__place-card place-card" onMouseEnter={() => onMouseEnter(id)} onMouseLeave={onMouseLeave}>
@@ -27,9 +35,12 @@ function Card({ offer, onMouseEnter, onMouseLeave }) {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={isFavorite
-            ? 'place-card__bookmark-button button place-card__bookmark-button--active'
-            : 'place-card__bookmark-button button'} type="button"
+          <button
+            className={isFavorite
+              ? 'place-card__bookmark-button button place-card__bookmark-button--active'
+              : 'place-card__bookmark-button button'}
+            type="button"
+            onClick={() => changeFavoriteStatus()}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
