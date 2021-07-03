@@ -1,13 +1,20 @@
 import {AuthorizationStatus} from './const';
+import { CITIES_LIST } from './const';
 
 export const arrangeOffersByCity = (offers) => {
   const offersByCity = {};
 
-  offers.forEach((offer) => {
-    if (!offersByCity[offer.city.name]) {
-      offersByCity[offer.city.name] = [offer];
-    } else {
-      offersByCity[offer.city.name].push(offer);
+  // offers.forEach((offer) => {
+  //   if (!offersByCity[offer.city.name]) {
+  //     offersByCity[offer.city.name] = [offer];
+  //   } else {
+  //     offersByCity[offer.city.name].push(offer);
+  //   }
+  // });
+
+  Object.values(CITIES_LIST).forEach(({ name }) => {
+    if (!offersByCity[name]) {
+      offersByCity[name] = [];
     }
   });
 
@@ -19,7 +26,7 @@ export const convertDateToMonthAndDate = (date) => (
 );
 
 export const capitalize = (word) => (
-  word && word[0].toUpperCase() + word.slice(1)
+  word && word[0].toUpperCase() + word.slice(1).toLowerCase()
 );
 
 export const calculateRatingPercent = (rating) => (

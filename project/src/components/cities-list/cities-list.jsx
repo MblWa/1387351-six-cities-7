@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import RenderOptions from '../render-options/render-options';
+import EmptyOffersList from '../empty-offers-list/empty-offers-list';
 import { changeCity } from '../../store/action';
 import { getCity } from '../../store/ui-interaction/selectors';
 import { getSortedOffers } from '../../store/app-data/selectors';
@@ -45,28 +46,32 @@ function CitiesList() {
         </section>
       </div>
       <div className="cities">
-        <div className="cities__places-container container">
-          <section className="cities__places places">
-            <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{offersCount} {selectPluralFormForNoun(offersCount, 'place', 'places')} to stay in {selectedCity.name}</b>
-            <RenderOptions />
-            <OffersList
-              className="cities__places-list places__list tabs__content"
-              offers={selectedOffers}
-              onMouseEnter={(selectedId) => {
-                setSelectedOffer({...selectedOffer, id: selectedId});
-              }}
-              onMouseLeave={() => {
-                setSelectedOffer({...selectedOffer, id: null});
-              }}
-            />
-          </section>
-          <div className="cities__right-section">
-            <section className="cities__map map">
-              <Map city={selectedCity} offers={selectedOffers} selectedOffer={selectedOffer} />
-            </section>
-          </div>
-        </div>
+        {offersCount === 0
+          ? <EmptyOffersList />
+          : (
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <b className="places__found">{offersCount} {selectPluralFormForNoun(offersCount, 'place', 'places')} to stay in {selectedCity.name}</b>
+                <RenderOptions />
+                <OffersList
+                  className="cities__places-list places__list tabs__content"
+                  offers={selectedOffers}
+                  onMouseEnter={(selectedId) => {
+                    setSelectedOffer({...selectedOffer, id: selectedId});
+                  }}
+                  onMouseLeave={() => {
+                    setSelectedOffer({...selectedOffer, id: null});
+                  }}
+                />
+              </section>
+              <div className="cities__right-section">
+                <section className="cities__map map">
+                  <Map city={selectedCity} offers={selectedOffers} selectedOffer={selectedOffer} />
+                </section>
+              </div>
+            </div>
+          )}
       </div>
     </>
   );
