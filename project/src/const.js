@@ -101,7 +101,6 @@ export const APIRoute = {
   ROOM: '/hotels/',
   NEARBY: '/nearby',
   FAVORITE: '/favorite',
-  UPDATE_FAVORITE: '/favorite/:hotel_id/:status',
   COMMENTS: '/comments/',
   LOGIN: '/login',
   LOGOUT: '/logout',

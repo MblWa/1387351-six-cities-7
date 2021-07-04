@@ -1,16 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import FavoritesCard from '../favorites-card/favorites-card';
 import { offerProp } from '../../prop-types/props';
+import { CITIES_LIST, AppRoute } from '../../const';
+import { changeCity } from '../../store/action';
 
 function FavoritesList({ city, offers }) {
+  const dispatch = useDispatch();
+
+  const setCurrentCity = (target) => {
+    const cityName = CITIES_LIST[target.toUpperCase()];
+    dispatch(changeCity(cityName));
+  };
+
+  if (offers.length === 0) {
+    return '';
+  }
+
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="#">
+          <Link className="locations__item-link" to={AppRoute.ROOT} onClick={() => setCurrentCity(city)}>
             <span>{city}</span>
-          </a>
+          </Link>
         </div>
       </div>
       <div className="favorites__places">

@@ -1,6 +1,8 @@
-import {AuthorizationStatus} from './const';
+import { AuthorizationStatus } from './const';
+import { CITIES_LIST } from './const';
 
-export const arrangeOffersByCity = (offers) => {
+export const arrangeOffersByCity = (offers, ...updateParams) => {
+  const { cityName, id } = updateParams;
   const offersByCity = {};
 
   offers.forEach((offer) => {
@@ -11,15 +13,32 @@ export const arrangeOffersByCity = (offers) => {
     }
   });
 
+  if (updateParams.length !== 0 ) {
+    offersByCity[cityName].map((offer) => offer.isFavorite = offer.id === id ? !offer.isFavorite : offer.isFavorite);
+  }
+
+  Object.values(CITIES_LIST).forEach(({ name }) => {
+    if (!offersByCity[name]) {
+      offersByCity[name] = [];
+    }
+  });
+
   return offersByCity;
 };
+
+export const updateOfferFavoriteStatus = (values, id) => (
+  values.map((value) => ({
+    ...value,
+    isFavorite: value.id === id ? !value.isFavorite : value.isFavorite,
+  })));
+
 
 export const convertDateToMonthAndDate = (date) => (
   new Date(date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
 );
 
 export const capitalize = (word) => (
-  word && word[0].toUpperCase() + word.slice(1)
+  word && word[0].toUpperCase() + word.slice(1).toLowerCase()
 );
 
 export const calculateRatingPercent = (rating) => (
@@ -29,6 +48,8 @@ export const calculateRatingPercent = (rating) => (
 export const selectPluralFormForNoun = (value, singleForm, pluralForm) => (
   value === 1 ? singleForm : pluralForm
 );
+
+export const isNestedArraysEmpty = (object) => Object.values(object).reduce((accum, value) => accum += value.length, 0) === 0;
 
 export const isCheckedAuth = (authorizationStatus) => (
   authorizationStatus === AuthorizationStatus.UNKNOWN
@@ -87,4 +108,8 @@ export const adaptUserKeys = (data) => (
     avatarUrl: data.avatar_url,
     isPro: data.is_pro,
   }
+);
+
+export const setApiHeadersWithToken = (api) => (
+  api.defaults.headers['x-token'] = localStorage.getItem('token') ?? ''
 );

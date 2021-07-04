@@ -3,11 +3,15 @@ import {
   loadRoom,
   loadComments,
   loadOffersNearby,
+  loadFavorites,
+  updateOffer,
   requireAuthorization,
   login as openSession,
   setError,
-  logout as closeSession
+  logout as closeSession,
+  resetOffers
 } from './action';
+import { setApiHeadersWithToken } from '../util';
 import { AuthorizationStatus, APIRoute } from '../const';
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
@@ -33,11 +37,19 @@ export const fetchOffersNearby = (id) => (dispatch, _getState, api) => (
     .catch(() => {})
 );
 
-export const checkAuth = () => (dispatch, _getState, api) => (
+export const fetchFavorites = () => (dispatch, _getState, api) => {
+  setApiHeadersWithToken(api);
+  api.get(APIRoute.FAVORITE)
+    .then(({ data }) => dispatch(loadFavorites(data)))
+    .catch(() => {});
+};
+
+export const checkAuth = () => (dispatch, _getState, api) => {
+  setApiHeadersWithToken(api);
   api.get(APIRoute.LOGIN)
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
-    .catch(() => {})
-);
+    .catch(() => {});
+};
 
 export const login = ({ login: email, password }, cb) => (dispatch, _getState, api) => (
   api.post(APIRoute.LOGIN, { email, password })
@@ -51,17 +63,28 @@ export const login = ({ login: email, password }, cb) => (dispatch, _getState, a
     .catch(({response}) => dispatch(setError(`${response.status}`)))
 );
 
-export const postComment = ({comment, rating}, id) => (dispatch, _getState, api) => (
-  api.post(APIRoute.COMMENTS + id.toString(), { comment, rating }, {headers: {'x-token': localStorage.getItem('token') ?? ''}})
+export const postComment = ({comment, rating}, id) => (dispatch, _getState, api) => {
+  setApiHeadersWithToken(api);
+  api.post(APIRoute.COMMENTS + id.toString(), { comment, rating })
     .then(({ data }) => dispatch(loadComments(data)))
-    .catch(() => {})
-);
+    .catch(() => {});
+};
 
-export const logout = () => (dispatch, _getState, api) => (
+export const postFavorite = (id, status, cb) => (dispatch, _getState, api) => {
+  setApiHeadersWithToken(api);
+  api.post(`${APIRoute.FAVORITE}/${id}/${status ? 1 : 0}`)
+    .then(({ data }) => dispatch(updateOffer(data)))
+    .catch(() => cb());
+};
+
+export const logout = () => (dispatch, _getState, api) => {
+  setApiHeadersWithToken(api);
   api.delete(APIRoute.LOGOUT)
     .then(() => {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
     })
     .then(() => dispatch(closeSession()))
-);
+    .then(() => dispatch(resetOffers()))
+    .then(() => dispatch(fetchOffersList()));
+};
