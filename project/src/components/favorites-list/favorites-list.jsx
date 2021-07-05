@@ -16,7 +16,7 @@ function FavoritesList({ city, offers }) {
   };
 
   if (offers.length === 0) {
-    return '';
+    return null;
   }
 
   return (
