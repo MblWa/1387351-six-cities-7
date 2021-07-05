@@ -11,36 +11,36 @@ import {
   logout as closeSession,
   resetOffers
 } from './action';
-import { setApiHeadersWithToken } from '../util';
+import { setApiHeadersWithToken, adaptOffersKeys, adaptUserKeys, adaptCommentsKeys } from '../util';
 import { AuthorizationStatus, APIRoute } from '../const';
 
 export const fetchOffersList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.OFFERS)
-    .then(({ data }) => dispatch(loadOffers(data)))
+    .then(({ data }) => dispatch(loadOffers(adaptOffersKeys(data))))
 );
 
 export const fetchRoom = (id, cb) => (dispatch, _getState, api) => (
   api.get(APIRoute.ROOM + id.toString())
-    .then(({ data }) => dispatch(loadRoom(data)))
+    .then(({ data }) => dispatch(loadRoom(adaptOffersKeys([data])[0])))
     .catch(() => cb())
 );
 
 export const fetchComments = (id) => (dispatch, _getState, api) => (
   api.get(APIRoute.COMMENTS + id.toString())
-    .then(({ data }) => dispatch(loadComments(data)))
+    .then(({ data }) => dispatch(loadComments(adaptCommentsKeys(data))))
     .catch(() => {})
 );
 
 export const fetchOffersNearby = (id) => (dispatch, _getState, api) => (
   api.get(APIRoute.ROOM + id.toString() + APIRoute.NEARBY)
-    .then(({ data }) => dispatch(loadOffersNearby(data)))
+    .then(({ data }) => dispatch(loadOffersNearby(adaptOffersKeys(data))))
     .catch(() => {})
 );
 
 export const fetchFavorites = () => (dispatch, _getState, api) => {
   setApiHeadersWithToken(api);
   api.get(APIRoute.FAVORITE)
-    .then(({ data }) => dispatch(loadFavorites(data)))
+    .then(({ data }) => dispatch(loadFavorites(adaptOffersKeys(data))))
     .catch(() => {});
 };
 
@@ -56,7 +56,7 @@ export const login = ({ login: email, password }, cb) => (dispatch, _getState, a
     .then(({ data }) => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data));
-      dispatch(openSession(data));
+      dispatch(openSession(adaptUserKeys(data)));
     })
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
     .then(() => cb())
@@ -66,7 +66,7 @@ export const login = ({ login: email, password }, cb) => (dispatch, _getState, a
 export const postComment = ({comment, rating}, id) => (dispatch, _getState, api) => {
   setApiHeadersWithToken(api);
   api.post(APIRoute.COMMENTS + id.toString(), { comment, rating })
-    .then(({ data }) => dispatch(loadComments(data)))
+    .then(({ data }) => dispatch(loadComments(adaptCommentsKeys(data))))
     .catch(() => {});
 };
 
