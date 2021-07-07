@@ -39,14 +39,14 @@ export const fetchOffersNearby = (id) => (dispatch, _getState, api) => (
 
 export const fetchFavorites = () => (dispatch, _getState, api) => {
   setApiHeadersWithToken(api);
-  api.get(APIRoute.FAVORITE)
+  return api.get(APIRoute.FAVORITE)
     .then(({ data }) => dispatch(loadFavorites(adaptOffersKeys(data))))
     .catch(() => {});
 };
 
 export const checkAuth = () => (dispatch, _getState, api) => {
   setApiHeadersWithToken(api);
-  api.get(APIRoute.LOGIN)
+  return api.get(APIRoute.LOGIN)
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
     .catch(() => {});
 };
@@ -65,21 +65,21 @@ export const login = ({ login: email, password }, cb) => (dispatch, _getState, a
 
 export const postComment = ({comment, rating}, id) => (dispatch, _getState, api) => {
   setApiHeadersWithToken(api);
-  api.post(APIRoute.COMMENTS + id.toString(), { comment, rating })
+  return api.post(APIRoute.COMMENTS + id.toString(), { comment, rating })
     .then(({ data }) => dispatch(loadComments(adaptCommentsKeys(data))))
     .catch(() => {});
 };
 
 export const postFavorite = (id, status, cb) => (dispatch, _getState, api) => {
   setApiHeadersWithToken(api);
-  api.post(`${APIRoute.FAVORITE}/${id}/${status ? 1 : 0}`)
-    .then(({ data }) => dispatch(updateOffer(data)))
+  return api.post(`${APIRoute.FAVORITE}/${id}/${status ? 1 : 0}`)
+    .then(({ data }) => dispatch(updateOffer(data.id)))
     .catch(() => cb());
 };
 
 export const logout = () => (dispatch, _getState, api) => {
   setApiHeadersWithToken(api);
-  api.delete(APIRoute.LOGOUT)
+  return api.delete(APIRoute.LOGOUT)
     .then(() => {
       localStorage.removeItem('token');
       localStorage.removeItem('user');

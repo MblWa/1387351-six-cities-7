@@ -119,6 +119,8 @@ describe('Reducer: App Data', () => {
   });
 
   it('should update selected offer', () => {
+    const wrongId = 4;
+
     const state = {
       offers: [
         {id: 1, isFavorite: true},
@@ -128,7 +130,7 @@ describe('Reducer: App Data', () => {
 
     const setUpdateOfferToFav = {
       type: ActionType.UPDATE_OFFER,
-      payload: {id: 1},
+      payload: state.offers[0].id,
     };
 
     expect(appData(state, setUpdateOfferToFav))
@@ -142,7 +144,7 @@ describe('Reducer: App Data', () => {
 
     const setUpdateOfferToUnfav = {
       type: ActionType.UPDATE_OFFER,
-      payload: {id: 2},
+      payload: state.offers[1].id,
     };
 
     expect(appData(state, setUpdateOfferToUnfav))
@@ -156,7 +158,7 @@ describe('Reducer: App Data', () => {
 
     const setUpdateOfferByWrongId = {
       type: ActionType.UPDATE_OFFER,
-      payload: {id: 4},
+      payload: wrongId,
     };
 
     expect(appData(state, setUpdateOfferByWrongId))
