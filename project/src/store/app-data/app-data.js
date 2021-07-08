@@ -36,6 +36,7 @@ const appData = createReducer(initialState, (builder) => {
     .addCase(updateOffer, (state, action) => {
       state.isFavoritesLoaded = false;
       state.offers = updateOfferFavoriteStatus(state.offers, action.payload);
+      state.room = updateOfferFavoriteStatus([state.room], action.payload)[0];
     })
     .addCase(resetOffers, (state) => {
       state.favorites = [];

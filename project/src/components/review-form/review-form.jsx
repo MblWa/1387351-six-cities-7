@@ -51,6 +51,7 @@ function ReviewForm() {
         className="reviews__textarea form__textarea"
         id="review" name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        data-testid="review-textarea"
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

@@ -122,6 +122,7 @@ describe('Reducer: App Data', () => {
     const wrongId = 4;
 
     const state = {
+      room: {id: 1, isFavorite: true},
       offers: [
         {id: 1, isFavorite: true},
         {id: 2, isFavorite: false},
@@ -136,6 +137,7 @@ describe('Reducer: App Data', () => {
     expect(appData(state, setUpdateOfferToFav))
       .toEqual({
         isFavoritesLoaded: false,
+        room: {id: 1, isFavorite: false},
         offers: [
           {id: 1, isFavorite: false},
           {id: 2, isFavorite: false},
@@ -150,6 +152,7 @@ describe('Reducer: App Data', () => {
     expect(appData(state, setUpdateOfferToUnfav))
       .toEqual({
         isFavoritesLoaded: false,
+        room: {id: 1, isFavorite: true},
         offers: [
           {id: 1, isFavorite: true},
           {id: 2, isFavorite: true},
@@ -164,6 +167,7 @@ describe('Reducer: App Data', () => {
     expect(appData(state, setUpdateOfferByWrongId))
       .toEqual({
         isFavoritesLoaded: false,
+        room: {id: 1, isFavorite: true},
         offers: [
           {id: 1, isFavorite: true},
           {id: 2, isFavorite: false},

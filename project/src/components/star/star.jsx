@@ -12,8 +12,14 @@ function Star({ index, title, onChange }) {
         id={`${index}-stars`}
         type="radio"
         onChange={onChange}
+        data-testid="rating-input"
       />
-      <label htmlFor={`${index}-stars`} className="reviews__rating-label form__rating-label" title={title}>
+      <label
+        htmlFor={`${index}-stars`}
+        className="reviews__rating-label form__rating-label"
+        title={title}
+        data-testid="rating-label"
+      >
         <svg className="form__star-image" width="37" height="33">
           <use xlinkHref="#icon-star"></use>
         </svg>

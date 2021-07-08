@@ -26,11 +26,16 @@ export const arrangeOffersByCity = (offers, ...updateParams) => {
   return offersByCity;
 };
 
-export const updateOfferFavoriteStatus = (values, id) => (
-  values.map((value) => ({
+export const updateOfferFavoriteStatus = (values, id) => {
+  if (!values[0].id) {
+    return values;
+  }
+
+  return values.map((value) => ({
     ...value,
     isFavorite: value.id === id ? !value.isFavorite : value.isFavorite,
-  })));
+  }));
+};
 
 
 export const convertDateToMonthAndDate = (date) => (

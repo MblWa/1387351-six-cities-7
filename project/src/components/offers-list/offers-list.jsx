@@ -6,7 +6,7 @@ import { offerProp } from '../../prop-types/props';
 function OffersList({ offers, onMouseEnter, onMouseLeave, className }) {
 
   return (
-    <div className={className}>
+    <div className={className} data-testid="offers-list-container">
       {offers.map((offer) =>
         (
           <Card

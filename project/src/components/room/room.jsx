@@ -7,7 +7,7 @@ import OffersList from '../offers-list/offers-list';
 import Map from '../map/map';
 import LoadingScreen from '../loading-screen/loading-screen';
 import { capitalize, calculateRatingPercent, selectPluralFormForNoun } from '../../util';
-import { fetchRoom, fetchOffersNearby, fetchComments } from '../../store/api-actions';
+import { fetchRoom, fetchOffersNearby, fetchComments, postFavorite } from '../../store/api-actions';
 import { getOffersNearby, getRoom, getSortedComments, getRoomLoadedStatus } from '../../store/app-data/selectors';
 import { MAXIMUM_NEARBY_OFFERS_COUNT, MAXIMUM_OFFER_IMAGES_COUNT, AppRoute } from '../../const';
 
@@ -19,24 +19,6 @@ function Room() {
   const reviews = useSelector(getSortedComments);
   const isRoomLoaded = useSelector(getRoomLoadedStatus);
   const dispatch = useDispatch();
-
-
-  useEffect(() => {
-    const onLoad = (roomId, cb) => {
-      dispatch(fetchRoom(roomId, cb));
-      dispatch(fetchOffersNearby(roomId));
-      dispatch(fetchComments(roomId));
-    };
-
-    onLoad(id, dispatch, () => history.push(AppRoute.NOT_FOUND));
-  }, [id, history, dispatch]);
-
-  if (!isRoomLoaded || Number(id) !== room.id) {
-    return (
-      <LoadingScreen />
-    );
-  }
-
   const {
     city,
     images,
@@ -52,6 +34,26 @@ function Room() {
     title,
     maxAdults,
   } = room;
+
+  useEffect(() => {
+    const onLoad = (roomId, cb) => {
+      dispatch(fetchRoom(roomId, cb));
+      dispatch(fetchOffersNearby(roomId));
+      dispatch(fetchComments(roomId));
+    };
+
+    onLoad(id, dispatch, () => history.push(AppRoute.NOT_FOUND));
+  }, [id, history, dispatch]);
+
+  const changeFavoriteStatus = () => {
+    dispatch(postFavorite(id, isFavorite, () => history.push(AppRoute.LOGIN)));
+  };
+
+  if (!isRoomLoaded || Number(id) !== room.id) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   const typeCapitalized = capitalize(type);
   const ratingPercent = calculateRatingPercent(rating);
@@ -83,9 +85,12 @@ function Room() {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className={isFavorite
-                  ? 'property__bookmark-button button property__bookmark-button--active'
-                  : 'property__bookmark-button button'} type="button"
+                <button
+                  className={isFavorite
+                    ? 'property__bookmark-button button property__bookmark-button--active'
+                    : 'property__bookmark-button button'}
+                  type="button"
+                  onClick={() => changeFavoriteStatus()}
                 >
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
