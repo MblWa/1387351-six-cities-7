@@ -23,9 +23,9 @@ describe('Component: SignIn', () => {
     const state = {
       UI: { city },
       USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
+        authorizationStatus: AuthorizationStatus.NO_AUTH,
         user: {
-          email: 'test@test.ru',
+          email: '',
           loginError: '',
         },
       },
