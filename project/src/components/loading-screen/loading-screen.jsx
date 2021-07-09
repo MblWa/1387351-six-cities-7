@@ -12,6 +12,7 @@ function LoadingScreen() {
         viewBox="0 0 100 100"
         enableBackground="new 0 0 100 100"
         xmlSpace="preserve"
+        data-testid="spinner-animation"
       >
         <rect fill="#4481c3" stroke="#fff" strokeWidth="4" x="25" y="25" width="50" height="50">
           <animateTransform

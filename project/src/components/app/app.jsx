@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Main from '../main/main';
 import SignIn from '../sign-in/sign-in';
 import Room from '../room/room';
@@ -25,33 +25,31 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path={ROOT}>
-          <Main />
-        </Route>
-        <Route exact path={ROOM}>
-          <Room />
-        </Route>
-        <Route
-          exact
-          path={LOGIN}
-          render={() => (
-            (authorizationStatus === AuthorizationStatus.AUTH)
-              ? <Redirect to={ROOT} />
-              : <SignIn />)}
-        />
-        <PrivateRoute
-          exact
-          path={FAVORITES}
-          redirectRoute={LOGIN}
-          render={() => <Favorites />}
-        />
-        <Route path={NOT_FOUND}>
-          <NotFound />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+    <Switch>
+      <Route exact path={ROOT}>
+        <Main />
+      </Route>
+      <Route exact path={ROOM}>
+        <Room />
+      </Route>
+      <Route
+        exact
+        path={LOGIN}
+        render={() => (
+          (authorizationStatus === AuthorizationStatus.AUTH)
+            ? <Redirect to={ROOT} />
+            : <SignIn />)}
+      />
+      <PrivateRoute
+        exact
+        path={FAVORITES}
+        redirectRoute={LOGIN}
+        render={() => <Favorites />}
+      />
+      <Route path={NOT_FOUND}>
+        <NotFound />
+      </Route>
+    </Switch>
   );
 }
 

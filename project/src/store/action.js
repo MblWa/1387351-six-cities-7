@@ -45,8 +45,8 @@ export const loadFavorites = createAction(ActionType.LOAD_FAVORITES, (favorites)
   payload: favorites,
 }));
 
-export const updateOffer = createAction(ActionType.UPDATE_OFFER, (offer) => ({
-  payload: offer,
+export const updateOffer = createAction(ActionType.UPDATE_OFFER, (offerId) => ({
+  payload: offerId,
 }));
 
 export const requireAuthorization = createAction(ActionType.REQUIRED_AUTHORIZATION, (status) => ({

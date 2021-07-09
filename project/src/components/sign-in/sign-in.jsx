@@ -50,6 +50,7 @@ function SignIn() {
                   placeholder="Email"
                   required
                   ref={loginRef}
+                  data-testid="login"
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
@@ -61,11 +62,13 @@ function SignIn() {
                   placeholder="Password"
                   required
                   ref={passwordRef}
+                  data-testid="password"
                 />
               </div>
               <button
                 className="login__submit form__submit button"
                 type="submit"
+                data-testid="submit-button"
               >
                 Sign in
               </button>

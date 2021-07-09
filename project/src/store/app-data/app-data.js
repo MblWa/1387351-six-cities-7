@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { adaptOffersKeys, adaptCommentsKeys, updateOfferFavoriteStatus } from '../../util';
+import { updateOfferFavoriteStatus } from '../../util';
 import { loadComments, loadOffers, loadOffersNearby, loadRoom, loadFavorites, updateOffer, resetOffers } from '../action';
 
 const initialState = {
@@ -16,26 +16,27 @@ const initialState = {
 const appData = createReducer(initialState, (builder) => {
   builder
     .addCase(loadOffers, (state, action) => {
-      state.offers = adaptOffersKeys(action.payload);
+      state.offers = action.payload;
       state.isOffersLoaded = true;
     })
     .addCase(loadOffersNearby, (state, action) => {
-      state.offersNearby = adaptOffersKeys(action.payload);
+      state.offersNearby = action.payload;
     })
     .addCase(loadComments, (state, action) => {
-      state.comments = adaptCommentsKeys(action.payload);
+      state.comments = action.payload;
     })
     .addCase(loadRoom, (state, action) => {
-      state.room = adaptOffersKeys([action.payload])[0];
+      state.room = action.payload;
       state.isRoomLoaded = true;
     })
     .addCase(loadFavorites, (state, action) => {
-      state.favorites = adaptOffersKeys(action.payload);
+      state.favorites = action.payload;
       state.isFavoritesLoaded = true;
     })
     .addCase(updateOffer, (state, action) => {
       state.isFavoritesLoaded = false;
-      state.offers = updateOfferFavoriteStatus(state.offers, action.payload.id);
+      state.offers = updateOfferFavoriteStatus(state.offers, action.payload);
+      state.room = updateOfferFavoriteStatus([state.room], action.payload)[0];
     })
     .addCase(resetOffers, (state) => {
       state.favorites = [];

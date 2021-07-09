@@ -1,5 +1,4 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { adaptUserKeys } from '../../util';
 import { AuthorizationStatus } from '../../const';
 import { login, logout, requireAuthorization, resetError, setError } from '../action';
 
@@ -24,7 +23,7 @@ const user = createReducer(initialState, (builder) => {
     })
     .addCase(login, (state, action) => {
       state.user = {
-        ...adaptUserKeys(action.payload),
+        ...action.payload,
         loginError: '',
       };
     })

@@ -66,7 +66,7 @@ function CitiesList() {
                 />
               </section>
               <div className="cities__right-section">
-                <section className="cities__map map">
+                <section className="cities__map map" data-testid="map">
                   <Map city={selectedCity} offers={selectedOffers} selectedOffer={selectedOffer} />
                 </section>
               </div>

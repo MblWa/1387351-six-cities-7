@@ -42,6 +42,7 @@ function RenderOptions() {
               setIsClosed(!isClosed);
               onOptionSelected(evt);
             }}
+            data-testid="sort-option"
           >
             {option}
           </li>
