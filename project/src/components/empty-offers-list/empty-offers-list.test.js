@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import EmptyOffersList from './empty-offers-list';
+import { testCity } from '../../test-mocks/test-mocks';
 
 const mockStore = configureStore({});
 
@@ -10,7 +11,7 @@ describe('Component: EmptyOffersList', () => {
   it('should render correctly', () => {
     const state = {
       UI: {
-        city: { name: 'Paris' },
+        city: testCity,
       },
     };
 

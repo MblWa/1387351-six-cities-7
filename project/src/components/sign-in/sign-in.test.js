@@ -5,30 +5,15 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { BrowserRouter } from 'react-router-dom';
 import SignIn from './sign-in';
-import { AuthorizationStatus } from '../../const';
+import { testNotAuthUser, testCity } from '../../test-mocks/test-mocks';
 
 const mockStore = configureStore({});
 
 describe('Component: SignIn', () => {
   it('should render correctly', () => {
-    const city = {
-      name: 'Cologne',
-      location: {
-        latitude: 50.938361,
-        longitude: 6.959974,
-        zoom: 13,
-      },
-    };
-
     const state = {
-      UI: { city },
-      USER: {
-        authorizationStatus: AuthorizationStatus.NO_AUTH,
-        user: {
-          email: '',
-          loginError: '',
-        },
-      },
+      UI: { city: testCity },
+      USER: testNotAuthUser,
     };
 
     render(
@@ -42,7 +27,7 @@ describe('Component: SignIn', () => {
     const signInButtonElement = screen.getByTestId('submit-button');
     expect(signInButtonElement).toBeInTheDocument();
 
-    const cityNameElement = screen.getByText(city.name);
+    const cityNameElement = screen.getByText(testCity.name);
     expect(cityNameElement).toBeInTheDocument();
 
     const loginElement = screen.getByTestId('login');

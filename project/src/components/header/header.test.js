@@ -4,20 +4,14 @@ import configureStore from 'redux-mock-store';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Header from './header';
-import { AuthorizationStatus } from '../../const';
+import { testAuthUser } from '../../test-mocks/test-mocks';
 
 const mockStore = configureStore({});
 
 describe('Component: Header', () => {
   it('should render correctly', () => {
     const state = {
-      USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
-        user: {
-          email: 'test@test.ru',
-          loginError: '',
-        },
-      },
+      USER: testAuthUser,
     };
 
     render(

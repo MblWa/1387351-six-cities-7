@@ -4,20 +4,14 @@ import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import UserStatusbar from './user-statusbar';
-import { AuthorizationStatus } from '../../const';
+import { testAuthUser, testNotAuthUser } from '../../test-mocks/test-mocks';
 
 const mockStore = configureStore({});
 
 describe('Component: UserStatusbar', () => {
   it('should render correctly if AUTHORIZED', () => {
     const state = {
-      USER: {
-        authorizationStatus: AuthorizationStatus.AUTH,
-        user: {
-          email: 'test@test.ru',
-          loginError: '',
-        },
-      },
+      USER: testAuthUser,
     };
 
     const { getByText } = render(
@@ -37,13 +31,7 @@ describe('Component: UserStatusbar', () => {
 
   it('should render correctly if UNAUTHORIZED', () => {
     const state = {
-      USER: {
-        authorizationStatus: AuthorizationStatus.NO_AUTH,
-        user: {
-          email: '',
-          loginError: '',
-        },
-      },
+      USER: testNotAuthUser,
     };
 
     const { getByText } = render(
