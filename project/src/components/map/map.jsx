@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { offerProp, cityProp } from '../../prop-types/props';
 import leaflet from 'leaflet';
-import useMap from '../../hooks/useMap';
+import useMap from '../../hooks/use-map';
 import PropTypes from 'prop-types';
 import { DEFAULT_CUSTOM_ICON, ACTIVE_CUSTOM_ICON } from '../../const';
 
