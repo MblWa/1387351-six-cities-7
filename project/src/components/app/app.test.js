@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { AppRoute} from '../../const';
+import { AppRoute } from '../../const';
 import App from './app';
 import { testOffers, testNotAuthUser, testCity } from '../../test-mocks/test-mocks';
 
