@@ -19,7 +19,7 @@ function FavoritesCard({ offer }) {
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to={OFFER_PATH + id.toString()}>
+        <Link to={OFFER_PATH + id.toString()} data-testid="image-offer-link">
           <img className="place-card__image" src={previewImage} width="150" height="110" alt="Place to rent" />
         </Link>
       </div>
@@ -47,7 +47,7 @@ function FavoritesCard({ offer }) {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={OFFER_PATH + id.toString()}>{title}</Link>
+          <Link to={OFFER_PATH + id.toString()} data-testid="title-offer-link">{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

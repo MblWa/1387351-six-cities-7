@@ -1,13 +1,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import * as Redux from 'react-redux';
-import { Router } from 'react-router-dom';
+import { Switch, Route, Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import Favorites from './favorites';
 import { testOffers, testAuthUser } from '../../test-mocks/test-mocks';
-import { ActionType } from '../../store/action';
+import { AppRoute } from '../../const';
 
 const history = createMemoryHistory();
 const mockStore = configureStore({});
@@ -84,7 +85,7 @@ describe('Component: Favorites', () => {
     expect(offerElements).toHaveLength(testOffers.length);
   });
 
-  it('should fetch favorites from server if there were no fav loaded', () => {
+  it('should try to fetch favorites from server if there were no fav loaded', () => {
     const dispatch = jest.fn();
     const useDispatch = jest.spyOn(Redux, 'useDispatch');
     useDispatch.mockReturnValue(dispatch);
@@ -106,8 +107,38 @@ describe('Component: Favorites', () => {
     );
 
     expect(useDispatch).toBeCalledTimes(2);
-    expect(dispatch).nthCalledWith(1, {
-      type: ActionType.LOAD_FAVORITES,
-    });
+  });
+
+  it('should redirect to root url when user clicked to link', () => {
+    history.push('/fake');
+    const dispatch = jest.fn();
+    const useDispatch = jest.spyOn(Redux, 'useDispatch');
+    useDispatch.mockReturnValue(dispatch);
+
+    const state = {
+      DATA: {
+        favorites: [],
+        isFavoritesLoaded: true,
+      },
+      USER: testAuthUser,
+    };
+
+    render(
+      <Provider store={mockStore(state)}>
+        <Router history={history}>
+          <Switch>
+            <Route path={AppRoute.ROOT} exact>
+              <h1>This is main page</h1>
+            </Route>
+            <Route>
+              <Favorites />
+            </Route>
+          </Switch>
+        </Router>
+      </Provider>);
+
+    expect(screen.queryByText(/This is main page/i)).not.toBeInTheDocument();
+    userEvent.click(screen.getByTestId('footer-link'));
+    expect(screen.queryByText(/This is main page/i)).toBeInTheDocument();
   });
 });
