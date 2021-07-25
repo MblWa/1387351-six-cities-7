@@ -51,10 +51,7 @@ function Room() {
 
   if (!isRoomLoaded || Number(id) !== room.id) {
     return (
-      <>
-      <h1>{id}</h1>
       <LoadingScreen />
-      </>
     );
   }
 
