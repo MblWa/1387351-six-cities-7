@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import userEvent from '@testing-library/user-event';
 import { Switch, Route, Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import { AppRoute } from '../../const';
+import { AppRoute, OFFER_PATH } from '../../const';
 import Room from './room';
 import { capitalize, calculateRatingPercent, selectPluralFormForNoun } from '../../util';
 import { testOffers, testNotAuthUser } from '../../test-mocks/test-mocks';
@@ -85,13 +85,13 @@ describe('Application Routing', () => {
     const useDispatch = jest.spyOn(Redux, 'useDispatch');
     useDispatch.mockReturnValue(dispatch);
 
-    history.push(AppRoute.ROOM + offer.id);
+    history.push(OFFER_PATH + offer.id.toString());
 
     render(
       <Provider store={store}>
         <Router history={history}>
           <Switch>
-            <Route path={AppRoute.ROOM + offer.id} exact>
+            <Route path={AppRoute.ROOM} exact>
               <Room />
             </Route>
           </Switch>
@@ -155,14 +155,17 @@ describe('Application Routing', () => {
     const useDispatch = jest.spyOn(Redux, 'useDispatch');
     useDispatch.mockReturnValue(dispatch);
 
-    history.push(AppRoute.ROOM + offer.id);
+    history.push(OFFER_PATH + offer.id.toString());
 
     render(
       <Provider store={store}>
         <Router history={history}>
           <Switch>
-            <Route path={AppRoute.ROOM + offer.id} exact>
+            <Route path={AppRoute.ROOM} exact>
               <Room />
+            </Route>
+            <Route>
+              <h1>This is not a room page</h1>
             </Route>
           </Switch>
         </Router>
