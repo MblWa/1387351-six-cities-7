@@ -3,12 +3,13 @@ import { createMemoryHistory } from 'history';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
+import * as Redux from 'react-redux';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { AppRoute } from '../../const';
+import { AppRoute, OFFER_PATH } from '../../const';
 import App from './app';
 import { testOffers, testNotAuthUser, testAuthUser, testCity } from '../../test-mocks/test-mocks';
-
+import { calculateRatingPercent, capitalize, selectPluralFormForNoun } from '../../util';
 let store = null;
 let fakeApp = null;
 const history = createMemoryHistory();
@@ -20,7 +21,7 @@ describe('Application Routing', () => {
       USER: testNotAuthUser,
       DATA: {
         offers: testOffers,
-        offersNearBy: testOffers,
+        offersNearby: testOffers,
         isOffersLoaded: true,
         room: testOffers[0],
         favorites: [],
@@ -48,6 +49,51 @@ describe('Application Routing', () => {
 
     const mainElement = screen.getByRole('main');
     expect(mainElement).toBeInTheDocument();
+  });
+
+  it('redirects to ROOM when user navigate to "ROOM/:id"', () => {
+    history.push(OFFER_PATH + testOffers[0].id.toString());
+
+    const dispatch = jest.fn();
+    const useDispatch = jest.spyOn(Redux, 'useDispatch');
+    useDispatch.mockReturnValue(dispatch);
+
+    render(fakeApp);
+
+    const imageElements = screen.getAllByTestId('card-image');
+    expect(imageElements).toHaveLength(testOffers[0].images.length);
+    imageElements.forEach((image, index) => {
+      expect(image).toHaveAttribute('src', `${testOffers[0].images[index]}`);
+      expect(image).toHaveAttribute('alt', capitalize(testOffers[0].type));
+    });
+    expect(screen.getByTestId('rating')).toHaveStyle(`width: ${calculateRatingPercent(testOffers[0].rating)}`);
+
+    const titleType = screen.getByTestId('room-type');
+    expect(titleType).toBeInTheDocument();
+    expect(titleType.textContent).toEqual(capitalize(testOffers[0].type));
+
+    const bedroomsCountElement = screen.getByTestId('room-beds');
+    expect(bedroomsCountElement).toBeInTheDocument();
+    expect(bedroomsCountElement.textContent).toEqual(`${testOffers[0].bedrooms} ${selectPluralFormForNoun(testOffers[0].bedrooms, 'Bedroom', 'Bedrooms')}`);
+
+    const adultsCountElement = screen.getByTestId('room-adults');
+    expect(adultsCountElement).toBeInTheDocument();
+    expect(adultsCountElement.textContent).toEqual(`Max ${testOffers[0].maxAdults} ${selectPluralFormForNoun(testOffers[0].maxAdults, 'adult', 'adults')}`);
+
+    const priceElement = screen.getByTestId('room-price');
+    expect(priceElement).toBeInTheDocument();
+    expect(priceElement.textContent).toEqual(`€${testOffers[0].price}`);
+
+    const titleElement = screen.getByTestId('room-title');
+    expect(titleElement).toBeInTheDocument();
+    expect(titleElement.textContent).toEqual(testOffers[0].title);
+
+    const featureElements = screen.getAllByTestId('room-feature');
+    expect(featureElements).toHaveLength(testOffers[0].goods.length);
+
+    const hostAvatarElement = screen.getByTestId('host-avatar');
+    expect(hostAvatarElement).toHaveAttribute('src', `${testOffers[0].host.avatarUrl}`);
+    expect(hostAvatarElement).toHaveAttribute('alt', 'Host avatar');
   });
 
   it('redirects to LOGIN when user navigate to "/login"', () => {
