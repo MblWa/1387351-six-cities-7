@@ -127,6 +127,10 @@ describe('Reducer: App Data', () => {
         {id: 1, isFavorite: true},
         {id: 2, isFavorite: false},
       ],
+      offersNearby: [
+        {id: 1, isFavorite: true},
+        {id: 2, isFavorite: false},
+      ],
     };
 
     const setUpdateOfferToFav = {
@@ -139,6 +143,10 @@ describe('Reducer: App Data', () => {
         isFavoritesLoaded: false,
         room: {id: 1, isFavorite: false},
         offers: [
+          {id: 1, isFavorite: false},
+          {id: 2, isFavorite: false},
+        ],
+        offersNearby: [
           {id: 1, isFavorite: false},
           {id: 2, isFavorite: false},
         ],
@@ -157,6 +165,10 @@ describe('Reducer: App Data', () => {
           {id: 1, isFavorite: true},
           {id: 2, isFavorite: true},
         ],
+        offersNearby: [
+          {id: 1, isFavorite: true},
+          {id: 2, isFavorite: true},
+        ],
       });
 
     const setUpdateOfferByWrongId = {
@@ -169,6 +181,10 @@ describe('Reducer: App Data', () => {
         isFavoritesLoaded: false,
         room: {id: 1, isFavorite: true},
         offers: [
+          {id: 1, isFavorite: true},
+          {id: 2, isFavorite: false},
+        ],
+        offersNearby: [
           {id: 1, isFavorite: true},
           {id: 2, isFavorite: false},
         ],

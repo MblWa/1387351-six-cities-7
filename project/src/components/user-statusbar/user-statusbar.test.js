@@ -125,7 +125,7 @@ describe('Component: UserStatusbar', () => {
       </Provider>);
 
     userEvent.click(screen.getByText('Sign out'));
-    expect(useDispatch).toBeCalledTimes(1);
+    expect(useDispatch).toBeCalled();
     expect(screen.queryByText(/This is root page/i)).toBeInTheDocument();
   });
 });

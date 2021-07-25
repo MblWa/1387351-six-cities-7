@@ -41,9 +41,8 @@ function Map({ city, offers, selectedOffer }) {
     <div
       style={{height: '100%', width: '100%'}}
       ref={mapRef}
-    >
-
-    </div>
+      data-testid="map-container"
+    />
   );
 }
 

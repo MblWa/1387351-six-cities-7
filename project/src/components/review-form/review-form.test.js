@@ -35,4 +35,29 @@ describe('Component: ReviewForm', () => {
     userEvent.type(screen.getByTestId('review-textarea'), 'SAMPLE_TEXT');
     expect(screen.getByDisplayValue(/SAMPLE_TEXT/i)).toBeInTheDocument();
   });
+
+  it('should try to submit review and rating', () => {
+    const [ room ] = testOffers;
+
+    const state = {
+      DATA: { room },
+    };
+
+    render(
+      <Provider store={mockStore(state)}>
+        <BrowserRouter >
+          <ReviewForm />
+        </BrowserRouter>
+      </Provider>,
+    );
+
+    const starElements = screen.getAllByTestId('rating-input');
+    expect(starElements).toHaveLength(Rating.MAXIMUM_RATING);
+
+    const textareaElement = screen.getByTestId('review-textarea');
+    expect(textareaElement).toBeInTheDocument();
+
+    userEvent.type(screen.getByTestId('review-textarea'), 'SAMPLE_TEXT');
+    expect(screen.getByDisplayValue(/SAMPLE_TEXT/i)).toBeInTheDocument();
+  });
 });

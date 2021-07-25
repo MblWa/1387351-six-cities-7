@@ -36,6 +36,7 @@ function CitiesList() {
                 <Link
                   to={AppRoute.ROOT}
                   className={selectedCity.name === city.name ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item'}
+                  data-testid={city.name}
                 >
                   <span>{city.name}</span>
                 </Link>
@@ -52,7 +53,9 @@ function CitiesList() {
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offersCount} {selectPluralFormForNoun(offersCount, 'place', 'places')} to stay in {selectedCity.name}</b>
+                <b className="places__found">
+                  {offersCount} {selectPluralFormForNoun(offersCount, 'place', 'places')} to stay in {selectedCity.name}
+                </b>
                 <RenderOptions />
                 <OffersList
                   className="cities__places-list places__list tabs__content"

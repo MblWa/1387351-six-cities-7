@@ -7,7 +7,7 @@ import { render, screen } from '@testing-library/react';
 import { Router, Route, Switch, BrowserRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import FavoritesCard from './favorites-card';
-import { capitalize } from '../../util';
+import { capitalize, calculateRatingPercent } from '../../util';
 import { testOffers } from '../../test-mocks/test-mocks';
 import { AppRoute } from '../../const';
 
@@ -46,9 +46,10 @@ describe('Component: FavoritesCard', () => {
 
     const ratingElement = getByText(capitalize('Rating'));
     expect(ratingElement).toBeInTheDocument();
+    expect(screen.getByTestId('rating')).toHaveStyle(`width: ${calculateRatingPercent(offer.rating)}`);
   });
 
-  it('should redirect to room when user clicks an image', () => {
+  it('should redirect to room when user clicks an image or title', () => {
     const history = createMemoryHistory();
     history.push('/fake');
     const dispatch = jest.fn();
@@ -70,45 +71,24 @@ describe('Component: FavoritesCard', () => {
     expect(screen.queryByText(/This is room page/i)).not.toBeInTheDocument();
     userEvent.click(screen.getByTestId('image-offer-link'));
     expect(screen.queryByText(/This is room page/i)).toBeInTheDocument();
-  });
 
-  it('should redirect to room when user clicks a title', () => {
-    const history = createMemoryHistory();
     history.push('/fake');
-    const dispatch = jest.fn();
-    const useDispatch = jest.spyOn(Redux, 'useDispatch');
-    useDispatch.mockReturnValue(dispatch);
 
-    render(
-      <Router history={history}>
-        <Switch>
-          <Route path={AppRoute.ROOM + offer.id} exact>
-            <h1>This is room page</h1>
-          </Route>
-          <Route>
-            <FavoritesCard offer={offer}/>
-          </Route>
-        </Switch>
-      </Router>);
-
-    expect(screen.queryByText(/This is room page/i)).not.toBeInTheDocument();
     userEvent.click(screen.getByTestId('title-offer-link'));
     expect(screen.queryByText(/This is room page/i)).toBeInTheDocument();
   });
 
-  it('should redirect to room and dispatch an event to change current city', () => {
-    const history = createMemoryHistory();
-    history.push('/fake');
+  it('should try to update fav status of the offer', () => {
     const dispatch = jest.fn();
     const useDispatch = jest.spyOn(Redux, 'useDispatch');
     useDispatch.mockReturnValue(dispatch);
 
     render(
-      <Router history={history}>
+      <BrowserRouter>
         <FavoritesCard offer={offer}/>
-      </Router>);
+      </BrowserRouter>);
 
-    userEvent.click(screen.getByRole('button'));
-    expect(dispatch).toHaveBeenCalledTimes(1);
+    userEvent.click(screen.getByTestId('remove-from-favorites'));
+    expect(dispatch).toBeCalled();
   });
 });

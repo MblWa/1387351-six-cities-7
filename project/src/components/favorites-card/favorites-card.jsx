@@ -32,6 +32,7 @@ function FavoritesCard({ offer }) {
           <button
             className="place-card__bookmark-button place-card__bookmark-button--active button"
             type="button"
+            data-testid="remove-from-favorites"
             onClick={() => changeFavoriteStatus()}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
@@ -42,7 +43,7 @@ function FavoritesCard({ offer }) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: ratingPercent}}></span>
+            <span style={{width: ratingPercent}} data-testid="rating"></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
