@@ -2,21 +2,11 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Review from './review';
 import { convertDateToMonthAndDate } from '../../util';
+import { testReviews } from '../../test-mocks/test-mocks';
 
 describe('Component: CitiesList', () => {
   it('should render correctly', () => {
-    const review = {
-      comment: 'Bathed in the nature. Completely unplugged. Unforgettable.',
-      date: '2021-07-03T13:27:50.244Z',
-      id: 1,
-      rating: 3,
-      user: {
-        id: 19,
-        name: 'Christina',
-        avatarUrl: 'https://7.react.pages.academy/static/avatar/10.jpg',
-        isPro: false,
-      },
-    };
+    const [ review ] = testReviews;
 
     render(
       <Review review={review} />,

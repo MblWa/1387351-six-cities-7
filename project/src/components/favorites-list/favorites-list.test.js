@@ -1,77 +1,62 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import * as Redux from 'react-redux';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { BrowserRouter } from 'react-router-dom';
+import { Router, Route, Switch, BrowserRouter } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 import FavoritesList from './favorites-list';
+import { testOffers, testCity } from '../../test-mocks/test-mocks';
+import { AppRoute } from '../../const';
+import { ActionType } from '../../store/action';
 
 const mockStore = configureStore({});
 
 describe('Component: FavoritesList', () => {
   it('should render correctly', () => {
     const state = {};
-    const city = {
-      name: 'Cologne',
-      location: {
-        latitude: 50.938361,
-        longitude: 6.959974,
-        zoom: 13,
-      },
-    };
-    const offers = [{
-      city: {
-        name: 'Cologne',
-        location: {
-          latitude: 50.938361,
-          longitude: 6.959974,
-          zoom: 13,
-        },
-      },
-      previewImage: 'https://7.react.pages.academy/static/hotel/2.jpg',
-      images: [
-        'https://7.react.pages.academy/static/hotel/11.jpg',
-      ],
-      title: 'Perfectly located Castro',
-      isFavorite: false,
-      isPremium: true,
-      rating: 3.4,
-      type: 'apartment',
-      bedrooms: 3,
-      maxAdults: 6,
-      price: 301,
-      goods: [
-        'Air conditioning',
-        'Washer',
-        'Laptop friendly workspace',
-        'Breakfast',
-      ],
-      host: {
-        id:25,
-        name: 'Angelina',
-        isPro: true,
-        avatarUrl: 'img/avatar-angelina.jpg',
-      },
-      description: 'A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends.',
-      location: {
-        latitude: 50.917361,
-        longitude: 6.977974,
-        zoom: 16,
-      },
-      id: 1,
-    }];
 
     render(
       <Provider store={mockStore(state)}>
         <BrowserRouter >
-          <FavoritesList city={city.name} offers={offers}/>
+          <FavoritesList city={testCity.name} offers={testOffers}/>
         </BrowserRouter>
       </Provider>,
     );
 
-    const cityElement = screen.getByText(`${city.name}`);
+    const cityElement = screen.getByText(`${testCity.name}`);
     expect(cityElement).toBeInTheDocument();
 
     const cardElement = screen.getByRole('article');
     expect(cardElement).toBeInTheDocument();
+  });
+
+  it('should redirect to root and dispatch an event to change current city', () => {
+    const history = createMemoryHistory();
+    history.push('/fake');
+    const dispatch = jest.fn();
+    const useDispatch = jest.spyOn(Redux, 'useDispatch');
+    useDispatch.mockReturnValue(dispatch);
+
+    render(
+      <Router history={history}>
+        <Switch>
+          <Route path={AppRoute.ROOT} exact>
+            <h1>This is main page</h1>
+          </Route>
+          <Route>
+            <FavoritesList city={testCity.name} offers={testOffers}/>
+          </Route>
+        </Switch>
+      </Router>);
+
+    expect(screen.queryByText(/This is main page/i)).not.toBeInTheDocument();
+    userEvent.click(screen.getByTestId('city-link'));
+    expect(dispatch).nthCalledWith(1, {
+      type: ActionType.CHANGE_CITY,
+      payload: testCity,
+    });
+    expect(screen.queryByText(/This is main page/i)).toBeInTheDocument();
   });
 });

@@ -1,57 +1,20 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import userEvent from '@testing-library/user-event';
+import * as Redux from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { Router, Route, Switch, BrowserRouter } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 import FavoritesCard from './favorites-card';
-import { capitalize } from '../../util';
+import { capitalize, calculateRatingPercent } from '../../util';
+import { testOffers } from '../../test-mocks/test-mocks';
+import { AppRoute } from '../../const';
 
 const mockStore = configureStore({});
-
+const [ offer ] = testOffers;
 describe('Component: FavoritesCard', () => {
   it('should render correctly', () => {
-    const offer = {
-      city: {
-        name: 'Cologne',
-        location: {
-          latitude: 50.938361,
-          longitude: 6.959974,
-          zoom: 13,
-        },
-      },
-      previewImage: 'https://7.react.pages.academy/static/hotel/2.jpg',
-      images: [
-        'https://7.react.pages.academy/static/hotel/11.jpg',
-      ],
-      title: 'Perfectly located Castro',
-      isFavorite: false,
-      isPremium: true,
-      rating: 3.4,
-      type: 'apartment',
-      bedrooms: 3,
-      maxAdults: 6,
-      price: 301,
-      goods: [
-        'Air conditioning',
-        'Washer',
-        'Laptop friendly workspace',
-        'Breakfast',
-      ],
-      host: {
-        id:25,
-        name: 'Angelina',
-        isPro: true,
-        avatarUrl: 'img/avatar-angelina.jpg',
-      },
-      description: 'A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends.',
-      location: {
-        latitude: 50.917361,
-        longitude: 6.977974,
-        zoom: 16,
-      },
-      id: 1,
-    };
-
     const state = {};
 
     const {getByText} = render(
@@ -83,5 +46,49 @@ describe('Component: FavoritesCard', () => {
 
     const ratingElement = getByText(capitalize('Rating'));
     expect(ratingElement).toBeInTheDocument();
+    expect(screen.getByTestId('rating')).toHaveStyle(`width: ${calculateRatingPercent(offer.rating)}`);
+  });
+
+  it('should redirect to room when user clicks an image or title', () => {
+    const history = createMemoryHistory();
+    history.push('/fake');
+    const dispatch = jest.fn();
+    const useDispatch = jest.spyOn(Redux, 'useDispatch');
+    useDispatch.mockReturnValue(dispatch);
+
+    render(
+      <Router history={history}>
+        <Switch>
+          <Route path={AppRoute.ROOM + offer.id} exact>
+            <h1>This is room page</h1>
+          </Route>
+          <Route>
+            <FavoritesCard offer={offer}/>
+          </Route>
+        </Switch>
+      </Router>);
+
+    expect(screen.queryByText(/This is room page/i)).not.toBeInTheDocument();
+    userEvent.click(screen.getByTestId('image-offer-link'));
+    expect(screen.queryByText(/This is room page/i)).toBeInTheDocument();
+
+    history.push('/fake');
+
+    userEvent.click(screen.getByTestId('title-offer-link'));
+    expect(screen.queryByText(/This is room page/i)).toBeInTheDocument();
+  });
+
+  it('should try to update fav status of the offer', () => {
+    const dispatch = jest.fn();
+    const useDispatch = jest.spyOn(Redux, 'useDispatch');
+    useDispatch.mockReturnValue(dispatch);
+
+    render(
+      <BrowserRouter>
+        <FavoritesCard offer={offer}/>
+      </BrowserRouter>);
+
+    userEvent.click(screen.getByTestId('remove-from-favorites'));
+    expect(dispatch).toBeCalled();
   });
 });

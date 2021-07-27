@@ -19,13 +19,17 @@ function Card({ offer, onMouseEnter, onMouseLeave }) {
   };
 
   return (
-    <article className="cities__place-card place-card" onMouseEnter={() => onMouseEnter(id)} onMouseLeave={onMouseLeave}>
+    <article
+      className="cities__place-card place-card"
+      onMouseEnter={() => onMouseEnter(id)}
+      onMouseLeave={onMouseLeave}
+    >
       {isPremium &&
-      <div className="place-card__mark">
+      <div className="place-card__mark" data-testid="premium">
         <span>Premium</span>
       </div>}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={OFFER_PATH + id.toString()}>
+        <Link to={OFFER_PATH + id.toString()} data-testid="image-offer-link">
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place to rent" />
         </Link>
       </div>
@@ -40,6 +44,7 @@ function Card({ offer, onMouseEnter, onMouseLeave }) {
               ? 'place-card__bookmark-button button place-card__bookmark-button--active'
               : 'place-card__bookmark-button button'}
             type="button"
+            data-testid="add-to-favorites"
             onClick={() => changeFavoriteStatus()}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
@@ -50,12 +55,14 @@ function Card({ offer, onMouseEnter, onMouseLeave }) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: ratingPercent}}></span>
+            <span style={{width: ratingPercent}} data-testid="rating"></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={OFFER_PATH + id.toString()}>{title}</Link>
+          <Link to={OFFER_PATH + id.toString()} data-testid="title-offer-link">
+            {title}
+          </Link>
         </h2>
         <p className="place-card__type">{typeCapitalized}</p>
       </div>

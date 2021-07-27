@@ -23,7 +23,12 @@ function FavoritesList({ city, offers }) {
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <Link className="locations__item-link" to={AppRoute.ROOT} onClick={() => setCurrentCity(city)}>
+          <Link
+            className="locations__item-link"
+            to={AppRoute.ROOT}
+            onClick={() => setCurrentCity(city)}
+            data-testid="city-link"
+          >
             <span>{city}</span>
           </Link>
         </div>

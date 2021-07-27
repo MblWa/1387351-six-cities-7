@@ -3,93 +3,34 @@ import { createMemoryHistory } from 'history';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
+import * as Redux from 'react-redux';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { AuthorizationStatus, AppRoute} from '../../const';
+import { AppRoute, OFFER_PATH } from '../../const';
 import App from './app';
-
+import { testOffers, testNotAuthUser, testAuthUser, testCity } from '../../test-mocks/test-mocks';
+import { calculateRatingPercent, capitalize, selectPluralFormForNoun } from '../../util';
 let store = null;
 let fakeApp = null;
 const history = createMemoryHistory();
+const createFakeStore = configureStore({});
 
 describe('Application Routing', () => {
   beforeAll(() => {
-    const offers = [{
-      city: {
-        name: 'Cologne',
-        location: {
-          latitude: 50.938361,
-          longitude: 6.959974,
-          zoom: 13,
-        },
-      },
-      previewImage: 'https://7.react.pages.academy/static/hotel/2.jpg',
-      images: [
-        'https://7.react.pages.academy/static/hotel/11.jpg',
-      ],
-      title: 'Perfectly located Castro',
-      isFavorite: false,
-      isPremium: true,
-      rating: 3.4,
-      type: 'apartment',
-      bedrooms: 3,
-      maxAdults: 6,
-      price: 301,
-      goods: [
-        'Air conditioning',
-        'Washer',
-        'Laptop friendly workspace',
-        'Breakfast',
-      ],
-      host: {
-        id:25,
-        name: 'Angelina',
-        isPro: true,
-        avatarUrl: 'img/avatar-angelina.jpg',
-      },
-      description: 'A new spacious villa, one floor. All commodities, jacuzzi and beautiful scenery. Ideal for families or friends.',
-      location: {
-        latitude: 50.917361,
-        longitude: 6.977974,
-        zoom: 16,
-      },
-      id: 1,
-    }];
-    const city = {
-      name: 'Cologne',
-      location: {
-        latitude: 50.938361,
-        longitude: 6.959974,
-        zoom: 13,
-      },
-    };
-    const user = {
-      authorizationStatus: AuthorizationStatus.NO_AUTH,
-      user: {
-        email: 'test@test.ru',
-        id: 1,
-        name: 'test',
-        isPro: false,
-        avatarUrl: 'img/img.img',
-        loginError: '',
-      },
-    };
-
-    const createFakeStore = configureStore({});
     store = createFakeStore({
-      USER: user,
+      USER: testNotAuthUser,
       DATA: {
-        offers,
-        offersNearBy: offers,
+        offers: testOffers,
+        offersNearby: testOffers,
         isOffersLoaded: true,
-        room: offers[0],
+        room: testOffers[0],
         favorites: [],
         isFavoritesLoaded: false,
         isRoomLoaded: true,
         comments: [],
       },
       UI: {
-        city,
+        city: testCity,
         sortBy: 'Popular',
       },
     });
@@ -108,6 +49,51 @@ describe('Application Routing', () => {
 
     const mainElement = screen.getByRole('main');
     expect(mainElement).toBeInTheDocument();
+  });
+
+  it('redirects to ROOM when user navigate to "ROOM/:id"', () => {
+    history.push(OFFER_PATH + testOffers[0].id.toString());
+
+    const dispatch = jest.fn();
+    const useDispatch = jest.spyOn(Redux, 'useDispatch');
+    useDispatch.mockReturnValue(dispatch);
+
+    render(fakeApp);
+
+    const imageElements = screen.getAllByTestId('card-image');
+    expect(imageElements).toHaveLength(testOffers[0].images.length);
+    imageElements.forEach((image, index) => {
+      expect(image).toHaveAttribute('src', `${testOffers[0].images[index]}`);
+      expect(image).toHaveAttribute('alt', capitalize(testOffers[0].type));
+    });
+    expect(screen.getByTestId('rating')).toHaveStyle(`width: ${calculateRatingPercent(testOffers[0].rating)}`);
+
+    const titleType = screen.getByTestId('room-type');
+    expect(titleType).toBeInTheDocument();
+    expect(titleType.textContent).toEqual(capitalize(testOffers[0].type));
+
+    const bedroomsCountElement = screen.getByTestId('room-beds');
+    expect(bedroomsCountElement).toBeInTheDocument();
+    expect(bedroomsCountElement.textContent).toEqual(`${testOffers[0].bedrooms} ${selectPluralFormForNoun(testOffers[0].bedrooms, 'Bedroom', 'Bedrooms')}`);
+
+    const adultsCountElement = screen.getByTestId('room-adults');
+    expect(adultsCountElement).toBeInTheDocument();
+    expect(adultsCountElement.textContent).toEqual(`Max ${testOffers[0].maxAdults} ${selectPluralFormForNoun(testOffers[0].maxAdults, 'adult', 'adults')}`);
+
+    const priceElement = screen.getByTestId('room-price');
+    expect(priceElement).toBeInTheDocument();
+    expect(priceElement.textContent).toEqual(`€${testOffers[0].price}`);
+
+    const titleElement = screen.getByTestId('room-title');
+    expect(titleElement).toBeInTheDocument();
+    expect(titleElement.textContent).toEqual(testOffers[0].title);
+
+    const featureElements = screen.getAllByTestId('room-feature');
+    expect(featureElements).toHaveLength(testOffers[0].goods.length);
+
+    const hostAvatarElement = screen.getByTestId('host-avatar');
+    expect(hostAvatarElement).toHaveAttribute('src', `${testOffers[0].host.avatarUrl}`);
+    expect(hostAvatarElement).toHaveAttribute('alt', 'Host avatar');
   });
 
   it('redirects to LOGIN when user navigate to "/login"', () => {
@@ -133,5 +119,56 @@ describe('Application Routing', () => {
 
     const linkElement = screen.getByText('Return to main page');
     expect(linkElement).toBeInTheDocument();
+  });
+
+  it('redirects to login when user navigate to sign in page while not authorized', () => {
+    history.push(AppRoute.LOGIN);
+    render(fakeApp);
+
+    const signInButtonElement = screen.getByTestId('submit-button');
+    expect(signInButtonElement).toBeInTheDocument();
+
+    const cityNameElement = screen.getByText(testCity.name);
+    expect(cityNameElement).toBeInTheDocument();
+
+    const loginElement = screen.getByTestId('login');
+    expect(loginElement).toBeInTheDocument();
+    const passwordElement = screen.getByTestId('password');
+    expect(passwordElement).toBeInTheDocument();
+
+    userEvent.type(screen.getByTestId('login'), 'test@test.ru');
+    userEvent.type(screen.getByTestId('password'), '1234567890');
+    expect(screen.getByDisplayValue(/test@test.ru/i)).toBeInTheDocument();
+    expect(screen.getByDisplayValue(/1234567890/i)).toBeInTheDocument();
+  });
+
+  it('redirects to root when user navigate to sign in page while authorized', () => {
+    history.push(AppRoute.LOGIN);
+    store = createFakeStore({
+      USER: testAuthUser,
+      DATA: {
+        offers: testOffers,
+        offersNearBy: testOffers,
+        isOffersLoaded: true,
+        room: testOffers[0],
+        favorites: [],
+        isFavoritesLoaded: false,
+        isRoomLoaded: true,
+        comments: [],
+      },
+      UI: {
+        city: testCity,
+        sortBy: 'Popular',
+      },
+    });
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <App />
+        </Router>
+      </Provider>);
+
+    const signInButtonElement = screen.queryByTestId('submit-button');
+    expect(signInButtonElement).not.toBeInTheDocument();
   });
 });

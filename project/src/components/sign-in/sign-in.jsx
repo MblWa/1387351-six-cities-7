@@ -17,20 +17,16 @@ function SignIn() {
   const passwordRef = useRef();
   const history = useHistory();
 
-  const onSubmit = (authData, cb) => {
-    dispatch(login(authData, cb));
-  };
-
   const onClick = () => {
     dispatch(resetError());
   };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onSubmit({
+    dispatch(login({
       login: loginRef.current.value,
       password: passwordRef.current.value,
-    }, () => history.push(AppRoute.ROOT));
+    }, () => history.push(AppRoute.ROOT)));
   };
 
   return (
@@ -41,7 +37,12 @@ function SignIn() {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post" onSubmit={handleSubmit} >
+            <form
+              className="login__form form"
+              action="#"
+              method="post"
+              onSubmit={handleSubmit}
+            >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
