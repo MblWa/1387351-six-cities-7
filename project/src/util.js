@@ -1,5 +1,10 @@
-import { AuthorizationStatus } from './const';
-import { CITIES_LIST } from './const';
+import {
+  CITIES_LIST,
+  AuthorizationStatus,
+  MINIMUM_REVIEW_CHAR_COUNT,
+  MAXIMUM_REVIEW_CHAR_COUNT,
+  Rating
+} from './const';
 
 export const arrangeOffersByCity = (offers, ...updateParams) => {
   const { cityName, id } = updateParams;
@@ -118,3 +123,29 @@ export const adaptUserKeys = (data) => (
 export const setApiHeadersWithToken = (api) => (
   api.defaults.headers['x-token'] = localStorage.getItem('token') ?? ''
 );
+
+export const isValidEmail = (email) => {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+};
+
+export const isValidPassword = (password) => {
+  const passwordLength = password.length;
+
+  if (passwordLength === 0) {
+    return false;
+  }
+
+  const spaceCount = (password.match(/ /g) || []).length;
+  return !(spaceCount === passwordLength);
+};
+
+export const isValidPost = (rating, comment) => {
+  const commentLength = comment.length;
+  return (
+    commentLength >= MINIMUM_REVIEW_CHAR_COUNT
+    && commentLength <= MAXIMUM_REVIEW_CHAR_COUNT
+    && rating > 0
+    && rating <= Rating.MAXIMUM_RATING
+  );
+};

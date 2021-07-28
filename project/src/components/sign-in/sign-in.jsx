@@ -5,9 +5,10 @@ import Alert from '../alert/alert';
 import Header from '../header/header';
 import { login } from '../../store/api-actions';
 import { AppRoute } from '../../const';
-import { resetError } from '../../store/action';
+import { resetError, setError } from '../../store/action';
 import { getCity } from '../../store/ui-interaction/selectors';
 import { getUserLoginError } from '../../store/user/selectors';
+import { isValidEmail, isValidPassword } from '../../util';
 
 function SignIn() {
   const error = useSelector(getUserLoginError);
@@ -23,16 +24,21 @@ function SignIn() {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    dispatch(login({
-      login: loginRef.current.value,
-      password: passwordRef.current.value,
-    }, () => history.push(AppRoute.ROOT)));
+    if (isValidEmail(loginRef.current.value) && isValidPassword(passwordRef.current.value)) {
+      dispatch(resetError());
+      dispatch(login({
+        login: loginRef.current.value,
+        password: passwordRef.current.value,
+      }, () => history.push(AppRoute.ROOT)));
+    } else {
+      dispatch(setError('Bad login or password'));
+    }
   };
 
   return (
     <div className="page page--gray page--login">
       <Header />
-      {error && <Alert onClick={() => onClick()} />}
+      {error && <Alert errorText={error} onClick={() => onClick()} />}
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">

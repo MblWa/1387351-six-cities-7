@@ -60,6 +60,7 @@ export const testNotAuthUser = {
     isPro: false,
     avatarUrl: '',
     loginError: '',
+    commentError: '',
   },
 };
 
@@ -72,6 +73,7 @@ export const testAuthUser = {
     isPro: false,
     avatarUrl: 'img/img.img',
     loginError: '',
+    commentError: '',
   },
 };
 

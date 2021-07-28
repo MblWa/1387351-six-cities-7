@@ -5,10 +5,10 @@ import Alert from './alert';
 describe('Component: Alert', () => {
   it('should render correctly', () => {
     const {getByText} = render(
-      <Alert onClick={() => {}}/>,
+      <Alert errorText={'error message'} onClick={() => {}}/>,
     );
 
-    const errorElement = getByText('Failed to login: bad email or no password provided. Please, try again.');
+    const errorElement = getByText('error message');
 
     expect(errorElement).toBeInTheDocument();
   });

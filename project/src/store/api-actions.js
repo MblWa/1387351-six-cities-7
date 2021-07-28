@@ -9,7 +9,8 @@ import {
   login as openSession,
   setError,
   logout as closeSession,
-  resetOffers
+  resetOffers,
+  resetCommentError
 } from './action';
 import { setApiHeadersWithToken, adaptOffersKeys, adaptUserKeys, adaptCommentsKeys } from '../util';
 import { AuthorizationStatus, APIRoute } from '../const';
@@ -67,6 +68,7 @@ export const postComment = ({comment, rating}, id) => (dispatch, _getState, api)
   setApiHeadersWithToken(api);
   return api.post(APIRoute.COMMENTS + id.toString(), { comment, rating })
     .then(({ data }) => dispatch(loadComments(adaptCommentsKeys(data))))
+    .then(() => dispatch(resetCommentError()))
     .catch(() => {});
 };
 

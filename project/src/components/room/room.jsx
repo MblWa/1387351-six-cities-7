@@ -9,14 +9,14 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import { capitalize, calculateRatingPercent, selectPluralFormForNoun } from '../../util';
 import { fetchRoom, fetchOffersNearby, fetchComments, postFavorite } from '../../store/api-actions';
 import { getOffersNearby, getRoom, getSortedComments, getRoomLoadedStatus } from '../../store/app-data/selectors';
-import { MAXIMUM_NEARBY_OFFERS_COUNT, MAXIMUM_OFFER_IMAGES_COUNT, AppRoute } from '../../const';
+import { MAXIMUM_NEARBY_OFFERS_COUNT, MAXIMUM_OFFER_IMAGES_COUNT, MAXIMUM_REVIEWS_COUNT, AppRoute } from '../../const';
 
 function Room() {
   const { id } = useParams();
   const history = useHistory();
   const offersNearby = useSelector(getOffersNearby);
   const room = useSelector(getRoom);
-  const reviews = useSelector(getSortedComments);
+  const reviews = useSelector(getSortedComments).slice(0, MAXIMUM_REVIEWS_COUNT);
   const isRoomLoaded = useSelector(getRoomLoadedStatus);
   const dispatch = useDispatch();
   const {

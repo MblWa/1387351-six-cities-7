@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Star({ index, title, onChange }) {
+function Star({ index, title, onChange, isDisabled, isChecked }) {
 
   return (
     <>
@@ -13,6 +13,8 @@ function Star({ index, title, onChange }) {
         type="radio"
         onChange={onChange}
         data-testid="rating-input"
+        disabled={isDisabled}
+        checked={isChecked}
       />
       <label
         htmlFor={`${index}-stars`}
@@ -32,6 +34,8 @@ Star.propTypes = {
   index: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  isChecked: PropTypes.bool.isRequired,
 };
 
 export default Star;

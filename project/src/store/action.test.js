@@ -13,6 +13,8 @@ import {
   setError,
   resetError,
   resetOffers,
+  setCommentError,
+  resetCommentError,
   ActionType
 } from './action';
 
@@ -126,6 +128,7 @@ describe('Actions', () => {
         avatarUrl: '',
         isPro: false,
         loginError: '',
+        commentError: '',
       },
     };
 
@@ -136,6 +139,7 @@ describe('Actions', () => {
       avatarUrl: '',
       isPro: false,
       loginError: '',
+      commentError: '',
     };
 
     expect(login(user)).toEqual(expectedAction);
@@ -174,5 +178,24 @@ describe('Actions', () => {
     };
 
     expect(resetOffers()).toEqual(expectedAction);
+  });
+
+  it('action creator for setting comment error returns correct action', () => {
+    const expectedAction = {
+      type: ActionType.SET_COMMENT_ERROR,
+      payload: '401',
+    };
+
+    const error = '401';
+
+    expect(setCommentError(error)).toEqual(expectedAction);
+  });
+
+  it('action creator for reseting comment error returns correct action', () => {
+    const expectedAction = {
+      type: ActionType.RESET_COMMENT_ERROR,
+    };
+
+    expect(resetCommentError()).toEqual(expectedAction);
   });
 });

@@ -1,6 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { updateOfferFavoriteStatus } from '../../util';
-import { loadComments, loadOffers, loadOffersNearby, loadRoom, loadFavorites, updateOffer, resetOffers } from '../action';
+import {
+  loadComments,
+  loadOffers,
+  loadOffersNearby,
+  loadRoom,
+  loadFavorites,
+  updateOffer,
+  resetOffers
+} from '../action';
 
 const initialState = {
   offers: [],

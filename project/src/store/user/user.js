@@ -1,6 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../../const';
-import { login, logout, requireAuthorization, resetError, setError } from '../action';
+import {
+  login,
+  logout,
+  requireAuthorization,
+  resetError,
+  setError,
+  setCommentError,
+  resetCommentError
+} from '../action';
 
 const userLocalStorage = JSON.parse(localStorage.getItem('user')) ?? {};
 
@@ -13,6 +21,7 @@ const initialState = {
     avatarUrl: userLocalStorage.avatar_url ?? '',
     isPro: userLocalStorage.is_pro ?? false,
     loginError: '',
+    commentError: '',
   },
 };
 
@@ -25,6 +34,7 @@ const user = createReducer(initialState, (builder) => {
       state.user = {
         ...action.payload,
         loginError: '',
+        commentError: '',
       };
     })
     .addCase(logout, (state) => {
@@ -36,6 +46,7 @@ const user = createReducer(initialState, (builder) => {
         avatarUrl: '',
         isPro: false,
         loginError: '',
+        commentError: '',
       };
     })
     .addCase(setError, (state, action) => {
@@ -43,6 +54,12 @@ const user = createReducer(initialState, (builder) => {
     })
     .addCase(resetError, (state, action) => {
       state.user.loginError = '';
+    })
+    .addCase(setCommentError, (state, action) => {
+      state.user.commentError = action.payload;
+    })
+    .addCase(resetCommentError, (state) => {
+      state.user.commentError = '';
     });
 });
 
