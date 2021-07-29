@@ -28,7 +28,7 @@ export const testOffers = [{
     'Breakfast',
   ],
   host: {
-    id:25,
+    id: 25,
     name: 'Angelina',
     isPro: true,
     avatarUrl: 'img/avatar-angelina.jpg',

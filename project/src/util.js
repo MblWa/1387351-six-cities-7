@@ -32,7 +32,7 @@ export const arrangeOffersByCity = (offers, ...updateParams) => {
 };
 
 export const updateOfferFavoriteStatus = (values, id) => {
-  if (!values[0].id) {
+  if (values.length === 0 || !values[0].id) {
     return values;
   }
 
@@ -43,9 +43,17 @@ export const updateOfferFavoriteStatus = (values, id) => {
 };
 
 
-export const convertDateToMonthAndDate = (date) => (
-  new Date(date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
-);
+export const convertDateToMonthAndDate = (date) => {
+  const convertedDate = new Date(date);
+  if (convertedDate instanceof Date && !isNaN(convertedDate)) {
+    return convertedDate.toLocaleDateString('en-US',
+      {
+        month: 'long',
+        day: 'numeric',
+      });
+  }
+  return date;
+};
 
 export const capitalize = (word) => (
   word && word[0].toUpperCase() + word.slice(1).toLowerCase()
@@ -68,27 +76,27 @@ export const isCheckedAuth = (authorizationStatus) => (
 export const adaptOffersKeys = (array) => (
   array.map((obj) => (
     {
-      bedrooms: obj.bedrooms,
-      city: obj.city,
-      description: obj.description,
-      goods: obj.goods,
-      isFavorite: obj.is_favorite,
-      isPremium: obj.is_premium,
-      maxAdults: obj.max_adults,
-      previewImage: obj.preview_image,
+      bedrooms: obj.bedrooms ?? null,
+      city: obj.city ?? {},
+      description: obj.description ?? '',
+      goods: obj.goods ?? [],
+      isFavorite: obj.is_favorite ?? false,
+      isPremium: obj.is_premium  ?? false,
+      maxAdults: obj.max_adults ?? null,
+      previewImage: obj.preview_image ?? '',
       host: {
-        id: obj.host.id,
-        name: obj.host.name,
-        avatarUrl: obj.host.avatar_url,
-        isPro: obj.host.is_pro,
+        id: obj.host.id ?? null,
+        name: obj.host.name ?? '',
+        avatarUrl: obj.host.avatar_url ?? '',
+        isPro: obj.host.is_pro ?? false,
       },
-      id: obj.id,
-      images: obj.images,
-      location: obj.location,
-      price: obj.price,
-      rating: obj.rating,
-      title: obj.title,
-      type: obj.type,
+      id: obj.id ?? null,
+      images: obj.images ?? [],
+      location: obj.location ?? {},
+      price: obj.price ?? null,
+      rating: obj.rating ?? null,
+      title: obj.title ?? '',
+      type: obj.type ?? '',
     }
   ))
 );
@@ -96,15 +104,20 @@ export const adaptOffersKeys = (array) => (
 export const adaptCommentsKeys = (array) => (
   array.map((obj) => (
     {
-      comment: obj.comment,
-      date: obj.date,
-      id: obj.id,
-      rating: obj.rating,
+      comment: obj.comment ?? '',
+      date: obj.date ?? '',
+      id: obj.id ?? null,
+      rating: obj.rating ?? null,
       user: {
-        id: obj.user.id,
-        name: obj.user.name,
-        avatarUrl: obj.user.avatar_url,
-        isPro: obj.user.is_pro,
+        id: obj.user.id ?? null,
+        name: obj.user.name ?? '',
+        avatarUrl: obj.user.avatar_url ?? '',
+        isPro: obj.user.is_pro ?? false,
+      } ?? {
+        id: null,
+        name: '',
+        avatarUrl: '',
+        isPro: false,
       },
     }
   ))
@@ -112,11 +125,11 @@ export const adaptCommentsKeys = (array) => (
 
 export const adaptUserKeys = (data) => (
   {
-    email: data.email,
-    id: data.id,
-    name: data.name,
-    avatarUrl: data.avatar_url,
-    isPro: data.is_pro,
+    email: data.email ?? '',
+    id: data.id ?? null,
+    name: data.name ?? '',
+    avatarUrl: data.avatar_url ?? '',
+    isPro: data.is_pro ?? false,
   }
 );
 

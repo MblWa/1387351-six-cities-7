@@ -46,7 +46,7 @@ function Room() {
   }, [id, history, dispatch]);
 
   const changeFavoriteStatus = () => {
-    dispatch(postFavorite(id, isFavorite, () => history.push(AppRoute.LOGIN)));
+    dispatch(postFavorite(id, !isFavorite, () => history.push(AppRoute.LOGIN)));
   };
 
   if (!isRoomLoaded || Number(id) !== room.id) {
