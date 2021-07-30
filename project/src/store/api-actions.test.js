@@ -399,10 +399,13 @@ describe('Async operations', () => {
 
     return commentsLoader(dispatch, () => {}, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(2);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
           type: ActionType.LOAD_COMMENTS,
           payload: expectedFakeComments,
+        });
+        expect(dispatch).toHaveBeenNthCalledWith(2, {
+          type: ActionType.RESET_COMMENT_ERROR,
         });
       });
   });

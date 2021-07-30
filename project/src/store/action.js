@@ -15,6 +15,8 @@ export const ActionType = {
   LOGOUT: 'user/logout',
   SET_ERROR: 'error/setError',
   RESET_ERROR: 'error/resetError',
+  SET_COMMENT_ERROR: 'error/setCommentError',
+  RESET_COMMENT_ERROR: 'error/resetCommentError',
 };
 
 export const changeCity = createAction(ActionType.CHANGE_CITY, (city) => ({
@@ -59,10 +61,16 @@ export const login = createAction(ActionType.LOGIN, (user) => ({
 
 export const logout = createAction(ActionType.LOGOUT);
 
-export const  setError = createAction(ActionType.SET_ERROR, (error) => ({
+export const setError = createAction(ActionType.SET_ERROR, (error) => ({
   payload: error,
 }));
 
 export const resetError = createAction(ActionType.RESET_ERROR);
+
+export const setCommentError = createAction(ActionType.SET_COMMENT_ERROR, (error) => ({
+  payload: error,
+}));
+
+export const resetCommentError = createAction(ActionType.RESET_COMMENT_ERROR);
 
 export const resetOffers = createAction(ActionType.RESET_OFFERS);

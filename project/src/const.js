@@ -38,6 +38,9 @@ export const ACTIVE_CUSTOM_ICON = {
 
 export const MAXIMUM_NEARBY_OFFERS_COUNT = 3;
 export const MAXIMUM_OFFER_IMAGES_COUNT = 6;
+export const MAXIMUM_REVIEWS_COUNT = 10;
+export const MINIMUM_REVIEW_CHAR_COUNT = 50;
+export const MAXIMUM_REVIEW_CHAR_COUNT = 300;
 
 export const CITIES_LIST = {
   PARIS: {
@@ -94,6 +97,11 @@ export const AuthorizationStatus = {
   AUTH: 'AUTH',
   NO_AUTH: 'NO_AUTH',
   UNKNOWN: 'UNKNOWN',
+};
+
+export const ErrorStatus = {
+  COMMENT_ERROR: 'Comment is not posted, try again',
+  LOGIN_ERROR: 'Failed to login: bad email or password provided. Please, try again.',
 };
 
 export const APIRoute = {

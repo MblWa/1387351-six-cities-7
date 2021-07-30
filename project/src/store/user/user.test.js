@@ -14,6 +14,7 @@ describe('Reducer: user', () => {
           avatarUrl: '',
           isPro: false,
           loginError: '',
+          commentError: '',
         }});
   });
 
@@ -40,6 +41,7 @@ describe('Reducer: user', () => {
         avatarUrl: '',
         isPro: false,
         loginError: '',
+        commentError: '',
       }};
 
     const setLoginAction = {
@@ -62,6 +64,7 @@ describe('Reducer: user', () => {
           avatarUrl: 'http://abc.com/img.img',
           isPro: false,
           loginError: '',
+          commentError: '',
         },
       });
   });
@@ -76,6 +79,7 @@ describe('Reducer: user', () => {
         avatarUrl: 'http://abc.com/img.img',
         isPro: false,
         loginError: '',
+        commentError: '',
       },
     };
 
@@ -93,6 +97,7 @@ describe('Reducer: user', () => {
           avatarUrl: '',
           isPro: false,
           loginError: '',
+          commentError: '',
         },
       });
   });
@@ -126,5 +131,36 @@ describe('Reducer: user', () => {
 
     expect(user(state, setErrorAction))
       .toEqual({user: {loginError: ''}});
+  });
+
+  it('should set comment error', () => {
+    const state = {
+      user: {
+        commentError: '',
+      },
+    };
+
+    const setErrorAction = {
+      type: ActionType.SET_COMMENT_ERROR,
+      payload: '401',
+    };
+
+    expect(user(state, setErrorAction))
+      .toEqual({user: {commentError: '401'}});
+  });
+
+  it('should reset comment error', () => {
+    const state = {
+      user: {
+        commentError: '401',
+      },
+    };
+
+    const setErrorAction = {
+      type: ActionType.RESET_COMMENT_ERROR,
+    };
+
+    expect(user(state, setErrorAction))
+      .toEqual({user: {commentError: ''}});
   });
 });

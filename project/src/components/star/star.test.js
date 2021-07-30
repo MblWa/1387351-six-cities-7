@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import Star from './star';
 
 describe('Component: Star', () => {
@@ -9,7 +8,13 @@ describe('Component: Star', () => {
     const testTitle = 'title';
 
     render(
-      <Star index={testindex} title={testTitle} onChange={() => {}}/>,
+      <Star
+        index={testindex}
+        title={testTitle}
+        onChange={() => {}}
+        isDisabled={false}
+        isChecked={false}
+      />,
     );
 
     const ratingInputElement = screen.getByTestId('rating-input');
@@ -17,19 +22,5 @@ describe('Component: Star', () => {
 
     const ratingLabelElement = screen.getByTestId('rating-label');
     expect(ratingLabelElement).toBeInTheDocument();
-  });
-
-  it('should be checked when clicked', () => {
-    const testindex = 1;
-    const testTitle = 'title';
-
-    render(
-      <Star index={testindex} title={testTitle} onChange={() => {}}/>,
-    );
-
-    const ratingInputElement = screen.getByTestId('rating-input');
-    expect(ratingInputElement).not.toBeChecked();
-    userEvent.click(ratingInputElement);
-    expect(ratingInputElement).toBeChecked();
   });
 });

@@ -13,7 +13,10 @@ describe('Component: ReviewsList', () => {
     const [ room ] = testOffers;
 
     const state = {
-      DATA: { room },
+      DATA: {
+        room,
+        comments: testReviews,
+      },
       USER: testAuthUser,
     };
 
