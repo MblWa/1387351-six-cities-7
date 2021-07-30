@@ -18,11 +18,11 @@ function SignIn() {
   const passwordRef = useRef();
   const history = useHistory();
 
-  const onClick = () => {
+  const onAlertClick = () => {
     dispatch(resetError());
   };
 
-  const handleSubmit = (evt) => {
+  const handleFormSubmit = (evt) => {
     evt.preventDefault();
     if (isValidEmail(loginRef.current.value) && isValidPassword(passwordRef.current.value)) {
       dispatch(resetError());
@@ -38,7 +38,7 @@ function SignIn() {
   return (
     <div className="page page--gray page--login">
       <Header />
-      {error && <Alert errorText={error} onClick={() => onClick()} />}
+      {error && <Alert errorText={error} onClick={() => onAlertClick()} />}
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
@@ -47,7 +47,7 @@ function SignIn() {
               className="login__form form"
               action="#"
               method="post"
-              onSubmit={handleSubmit}
+              onSubmit={handleFormSubmit}
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>

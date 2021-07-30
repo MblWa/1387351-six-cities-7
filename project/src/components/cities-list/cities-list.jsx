@@ -17,7 +17,7 @@ function CitiesList() {
 
   const dispatch = useDispatch();
 
-  const onCityClick = (evt) => {
+  const handleCityClick = (evt) => {
     const city = CITIES_LIST[evt.target.textContent.toUpperCase()];
     dispatch(changeCity(city));
   };
@@ -32,7 +32,7 @@ function CitiesList() {
         <section className="locations container">
           <ul className="locations__list tabs__list">
             {Object.values(CITIES_LIST).map((city) => (
-              <li className="locations__item" key={city.name} onClick={onCityClick}>
+              <li className="locations__item" key={city.name} onClick={handleCityClick}>
                 <Link
                   to={AppRoute.ROOT}
                   className={selectedCity.name === city.name ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item'}

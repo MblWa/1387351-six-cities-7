@@ -45,7 +45,7 @@ function Room() {
     onLoad(id, () => history.push(AppRoute.NOT_FOUND));
   }, [id, history, dispatch]);
 
-  const changeFavoriteStatus = () => {
+  const handleFavoriteStatusChange = () => {
     dispatch(postFavorite(id, !isFavorite, () => history.push(AppRoute.LOGIN)));
   };
 
@@ -98,7 +98,7 @@ function Room() {
                     : 'property__bookmark-button button'}
                   type="button"
                   data-testid="bookmark-button"
-                  onClick={() => changeFavoriteStatus()}
+                  onClick={() => handleFavoriteStatusChange()}
                 >
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>

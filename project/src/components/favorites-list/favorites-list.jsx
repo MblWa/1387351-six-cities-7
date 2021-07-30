@@ -10,7 +10,7 @@ import { changeCity } from '../../store/action';
 function FavoritesList({ city, offers }) {
   const dispatch = useDispatch();
 
-  const setCurrentCity = (target) => {
+  const handleCurrentCityChange = (target) => {
     const cityName = CITIES_LIST[target.toUpperCase()];
     dispatch(changeCity(cityName));
   };
@@ -26,7 +26,7 @@ function FavoritesList({ city, offers }) {
           <Link
             className="locations__item-link"
             to={AppRoute.ROOT}
-            onClick={() => setCurrentCity(city)}
+            onClick={() => handleCurrentCityChange(city)}
             data-testid="city-link"
           >
             <span>{city}</span>

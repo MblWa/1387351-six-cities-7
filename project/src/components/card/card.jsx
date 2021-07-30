@@ -14,7 +14,7 @@ function Card({ offer, onMouseEnter, onMouseLeave }) {
   const typeCapitalized = capitalize(type);
   const ratingPercent = calculateRatingPercent(rating);
 
-  const changeFavoriteStatus = () => {
+  const handleFavoriteStatusChange = () => {
     dispatch(postFavorite(id, !isFavorite, () => history.push(AppRoute.LOGIN)));
   };
 
@@ -45,7 +45,7 @@ function Card({ offer, onMouseEnter, onMouseLeave }) {
               : 'place-card__bookmark-button button'}
             type="button"
             data-testid="add-to-favorites"
-            onClick={() => changeFavoriteStatus()}
+            onClick={() => handleFavoriteStatusChange()}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

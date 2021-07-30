@@ -9,7 +9,7 @@ function RenderOptions() {
   const dispatch = useDispatch();
   const [isClosed, setIsClosed] = useState(true);
 
-  const onOptionSelected = (evt) => dispatch(sortOffers(evt.target.textContent));
+  const handleOptionSelection = (evt) => dispatch(sortOffers(evt.target.textContent));
 
   return (
     <form
@@ -40,7 +40,7 @@ function RenderOptions() {
             tabIndex="0"
             onClick={(evt) => {
               setIsClosed(!isClosed);
-              onOptionSelected(evt);
+              handleOptionSelection(evt);
             }}
             data-testid="sort-option"
           >

@@ -12,7 +12,7 @@ function FavoritesCard({ offer }) {
   const { rating, previewImage, price, title, type, id, isFavorite } = offer;
   const ratingPercent = calculateRatingPercent(rating);
 
-  const changeFavoriteStatus = () => {
+  const handleFavoriteStatusChange = () => {
     dispatch(postFavorite(id, !isFavorite, () => history.push(AppRoute.LOGIN)));
   };
 
@@ -33,7 +33,7 @@ function FavoritesCard({ offer }) {
             className="place-card__bookmark-button place-card__bookmark-button--active button"
             type="button"
             data-testid="remove-from-favorites"
-            onClick={() => changeFavoriteStatus()}
+            onClick={() => handleFavoriteStatusChange()}
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

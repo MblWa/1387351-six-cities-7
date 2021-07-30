@@ -46,7 +46,7 @@ function ReviewForm() {
     setIsDisabled(true);
   };
 
-  const handleSubmit = (evt) => {
+  const handleFormSubmit = (evt) => {
     evt.preventDefault();
     onSubmit({
       rating,
@@ -54,16 +54,16 @@ function ReviewForm() {
     }, id);
   };
 
-  const onClick = () => {
+  const handleAlertClick = () => {
     dispatch(resetCommentError());
   };
 
   return (
     <>
-      {postError && <Alert errorText={postError} onClick={() => onClick()} />}
+      {postError && <Alert errorText={postError} onClick={() => handleAlertClick()} />}
       <form
         className="reviews__form form"
-        onSubmit={handleSubmit}
+        onSubmit={handleFormSubmit}
       >
         <label className="reviews__label form__label" htmlFor="review">Your review</label>
         <div className="reviews__rating-form form__rating">
